@@ -43,8 +43,6 @@ def retornar():
 
 @app.route('/register', methods=['POST','GET'])
 def registrar_user():
-        
-        dao.conectardb()
 
         if request.method == 'GET':
             return render_template('cadastro.html')
@@ -57,7 +55,7 @@ def registrar_user():
             senha = request.form['senha']
 
         if dao.inserir_user(nome,email,estado,profissao,senha):
-            return render_template('login.html')
+            return render_template('home.html')
         else:
             return render_template('cadatro.html', msg='erro ao inserir usuário')
 
@@ -65,7 +63,6 @@ def registrar_user():
 @app.route('/verificarlogin', methods=['POST','GET'])
 def verificarlogin():
 
-    dao.conectardb()
     user = request.form.get('username')
     senha = request.form.get('password')
 
