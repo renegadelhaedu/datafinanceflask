@@ -1,3 +1,16 @@
+function op1() {
+			document.getElementById('iframeTarget').src = "{{url_for('calcularRiscoRetorno', opcao='all')}}";
+}
+function op2() {
+			document.getElementById('iframeTarget').src = "{{url_for('correlacaotickerindicador')}}";
+}
+function op3() {
+			document.getElementById('iframeTarget').src = "{{url_for('atualizarcorrelacaoallindicadores')}}";
+}
+function op4() {
+			document.getElementById('iframeTarget').src = "{{url_for('gerarrankingdividendos', opcao='all')}}";
+}
+
 /*=============== SHOW MENU ===============*/
 const navMenu = document.getElementById('nav-menu'),
       navToggle = document.getElementById('nav-toggle'),
