@@ -49,7 +49,7 @@
 			<div class="nav-actions">
 
 				<i class="ri-search-line nav-search" id="search-btn" style="color: transparent;"></i>
-				<span class="nav-login" id="login-btn">ENTER</span>
+				<span class="nav-login" id="login-btn">Fazer Login</span>
 				
 				<!--clica na palavra enter redireciona pra pagina login, clica apenas no background abre o menu de login-->
 
@@ -70,33 +70,37 @@
 	<!--==================== LOGIN ====================-->
 	<div class="login" id="login">
 		<form action="/verificarlogin" class="login-form" method="post">
+
 			<h2 class="login-title">Log In</h2>
 
 			<div class="login-group">
 				<div>
 					<label for="username" class="login-label">Email</label>
-					<input type="email" placeholder="Write your email" id="username" name="username" class="login-input" required>
+					<input type="email" placeholder="Digite seu e-mail" id="username" name="username" class="login-input" required>
 				</div>
 
 				<div>
 					<label for="password" class="login-label">Password</label>
-					<input type="password" placeholder="Enter your password" id="password" name="password" class="login-input" required>
+					<input type="password" placeholder="Digite sua senha" id="password" name="password" class="login-input" required>
 				</div>
 			</div>
 
 			<div>
 				<p class="login-signup">
-					You do not have an account? <a href="cadastro">Sign up</a>
+					Você já tem uma conta? <a href="cadastro">Cadastre-se</a>
             		<a>{{msg_erro}}</a>
 				</p>
 
-				
-
 				<button type="submit" class="login-button">Log In</button>
 			</div>
+
+			<div class="login-close">
+				<img id="login-close" src="..//static//Imagens//fechar.png" height="20px" width="20px">
+			</div>
+
 		</form>
 
-		<i class="ri-close-line login-close" id="login-close"></i>
+
 	</div>
 
 	<!--==================== MAIN ====================-->
