@@ -17,6 +17,9 @@ def login(user,senha):
     cur.execute(sq)
     saida = cur.fetchall()
 
+    cur.close()
+    con.close()
+
     return saida
 
 def inserir_user(nome, email, estado, profissao, senha):
@@ -32,6 +35,7 @@ def inserir_user(nome, email, estado, profissao, senha):
         conn.commit()
         exito = True
 
+    cur.close()
     conn.close()
     return exito
 
@@ -52,4 +56,4 @@ def getCarteira():
              'PSSA3':7, 'BBSE3':9, 'VBBR3':13, 'BRSR6':22, 'TUPY3':6, 'BBAS3':6, 'VALE3':3}
 
 
-print(login('rene@rene','12345'))
+print(inserir_user('maria','maria@catolica.pb','pb','caca','12345'))
