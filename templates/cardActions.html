@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cardActions.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body >
+    
+    
+  <div class="containerCards">
+    <div class="cardActions">
+
+        <div>
+
+          <table>
+            <thead>
+                <tr class="transp">
+                  <th colspan="2">
+                    <div class="title">
+                      <h3>Valor de mercado</h3>
+                    </div>
+                  </th>
+                </tr>
+            </thead>
+                <tbody>
+                {% for nome, cotacao in pares[0] %}
+                <tr class="info-action">
+                  <td class="action"><a href="/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
+                  <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
+                </tr>
+                {% endfor %}
+               
+              </tbody>
+          </table>
+
+          
+          <!--########## - Acoes Populares - ##########-->
+          
+            <table>
+              <thead>
+                  <tr class="transp">
+                      <th colspan="2">
+                        <div class="title">
+                          <h3>Pagadora de dividendos</h3>
+                        </div>
+                      </th>
+                    </thead>
+                  <tbody>
+                     {% for nome, cotacao in pares[1] %}
+                    <tr class="info-action">
+                      <td class="action"><a href="/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
+                      <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+          
+
+          
+        </div>
+
+        <div>
+          <table>
+            <thead>
+                <tr class="transp">
+                    <th colspan="2">
+                      <div class="title">
+                        <h3>Menor relação preço/lucro</h2>
+                      </div>
+                    </th>
+                  </thead>
+                <tbody>
+                  {% for nome, cotacao in pares[2] %}
+                    <tr class="info-action">
+                      <td class="action"><a href="/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
+                      <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+          </table>
+          <!--########## - FIIS - ##########-->
+          <table>
+            <thead>
+                <tr class="transp">
+                    <th colspan="2">
+                      <div class="title">
+                        <h3>Maior retorno de capital</h2>
+                      </div>
+                    </th>
+                  </thead>
+                <tbody>
+                  {% for nome, cotacao in pares[3] %}
+                    <tr class="info-action">
+                      <td class="action"><a href="/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
+                      <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
+                    </tr>
+                    {% endfor %}
+              </tbody>
+          </table>
+        </div>
+    </div>
+    </div>
+
+</body>
+</html>

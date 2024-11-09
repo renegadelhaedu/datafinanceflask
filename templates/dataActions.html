@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dataActions.css') }}">
+    <title>{{nome}}</title>
+</head>
+<body>
+
+    <div class="actionData">
+        <h1>{{info.longName}}</h1>
+        <h2>{{info.symbol}}</h2>
+        <p>Website: <a href="{{info.website}}" target="_blank">{{info.website}}</a></p>
+        <p>Cotacao: R${{valor}}</p>
+        <p>Setor: {{info.sector}}</p>
+    </div>
+    <br>
+    <div class="plotgraf">
+        {{plot|safe}}
+    </div>
+    <br>
+    
+</body>
+</html>

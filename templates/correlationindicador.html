@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Correlação IPCA ação</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    <H1>Correlação Individual</H1>
+    <h2>Descrição</h2>
+    <form action="/correlacaoindividual" method="post">
+        <input type="text" name="ticker">
+        <br>
+        <input type="radio" id="ipca" name="indicador_radio" value="ipca" checked>
+        <label for="ipca">IPCA</label><br>
+        <input type="radio" id="selic" name="indicador_radio" value="selic">
+        <label for="selic">Selic</label><br>
+
+        <br>
+        <input type="submit" value="Calcular" />
+    </form>
+
+    <h3>
+        Correlação: {{correlac}}
+    </h3>
+    {{ plot|safe }}
+</body>
+</html>

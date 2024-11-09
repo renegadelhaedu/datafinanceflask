@@ -1,0 +1,50 @@
+
+.seach form{
+    margin-top: 45px;
+    transform: translate(-50%,-50%);
+    transition: all 1s;
+    width: 500px;
+    height: 40px;
+    background: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px;
+    border: solid 1px black;
+  }
+  
+  .seach input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;;
+    height: 42.5px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px;
+  }
+  
+  .seach .fa{
+    box-sizing: border-box;
+    padding: 6px 0;
+    width: 40px;
+    position: absolute;
+    color: #07051a;
+    text-align: center;
+    font-size: 1.0em;
+    transition: all 0.3s;
+  }
+  
+  .seach form:hover,
+  .seach form:valid{
+    cursor: text;
+  }
+  
+  .seach form:hover .fa,
+  .seach form:valid .fa{
+    background: #b8b8b895;
+    cursor: pointer;
+  }

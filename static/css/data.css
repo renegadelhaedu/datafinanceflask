@@ -1,0 +1,16 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+}
+
+.acoes-dados {
+    display: inline-block;
+}
+

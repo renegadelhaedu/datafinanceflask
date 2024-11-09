@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calcular Risco Retorno</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    <H1>Risco Retorno das ações</H1>
+    <h2>Para cada janela temporal, é calculado o retorno total (valorização + proventos) e percentual de
+        risco de ter prejuízo.
+        O gráfico abaixo traz a relação do retorno total médio (eixo y)
+        x o percentual de risco (eixo x) em todas as janelas.
+
+    </h2>
+    <div style="display: flex">
+        <form action="/calcularRiscoRetorno/minhas" method="get">
+            <button type="submit" >Minhas Ações</button>
+        </form>
+        <form action="/calcularRiscoRetorno/all" method="get">
+            <button type="submit" >Todas as Ações</button>
+        </form>
+    </div>
+
+    {{ plot|safe }}
+
+</body>
+</html>

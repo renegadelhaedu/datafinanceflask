@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Minha Carteira</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/carteira.css') }}">
+
+</head>
+<body>
+	
+	<header class="header" id="header">
+		<nav class="nav container">
+
+
+			<div class="nav-menu" id="nav-menu">
+				<ul class="nav-list">
+					<li class="nav-item dropdown">
+						<a href="/" class="nav-logo">HOME</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="#" class="nav-link" onclick="op1()">Risco Retorno</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="#" class="nav-link" onclick="op2()">Correlacao Individual</a>
+					</li>
+
+					<li class="nav-item">
+						<a href="#" class="nav-link" onclick="op3()">Indicadores</a>
+					</li>
+					<li class="nav-item">
+						<a href="#" class="nav-link" onclick="op4()">Dividendos</a>
+					</li>
+				</ul>
+
+				<div class="nav-close" id="nav-close">
+					<i class="ri-close-line"></i>
+				</div>
+			</div>
+
+			<div class="nav-actions">
+
+				<div class="nav-actions">
+
+					<div class="home-content">
+
+						<span class="text"></span>
+						<div class="profile">
+							<img class="photo-profile" src="../static/Imagens/perfil.jpg" alt="perfil">
+						</div>
+						
+					</div>
+
+					<div id="submenu" class="submenu">
+						<div class="card-container">
+							<div class="card-img">
+								<img class="round" id="profileImg" src="../static/Imagens/perfil.jpg" width="100%">
+								<input type="file" id="fileInput" style="display: none;">
+							</div>
+
+							<h3>{{name}}</h3>
+							<h6>{{state}}</h6>
+							<p>{{profession}}</p>
+							<div class="buttons">
+								<button id="import" class="btn1"><a
+										href="#">importar</a></button><!--CASO ELE JA TENHA IMPORTADO UMA CARTEIRA ELE PODE IMPORTAR OUTRA E SUBISTITUIR A ANTIGA-->
+								<button id="wallet" class="btn2"><a
+										href="/carteira">carteira</a></button><!--CASO JA TENHA IMPORTAR ELE MOSTRA A CARTEIRA, CASO NAO ELE EMITE UM ALERTA PARA IMPORTAR-->
+							</div>
+						</div>
+					</div>
+
+					<div class="nav-toggle" id="nav-toggle">
+						<i class="ri-menu-line"></i>
+					</div>
+				</div>
+				<!--clica na palavra enter redireciona pra pagina login, clica apenas no background abre o menu de login-->
+				<div class="nav-toggle" id="nav-toggle">
+					<i class="ri-menu-line"></i>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	 <!--==================== SEARCH ====================-->
+	 <div class="search" id="search">
+		<form action="" class="search-form">
+		   <i class="ri-search-line search-icon"></i>
+		   <input type="search" placeholder="What are you looking for?" class="search-input">
+		</form>
+
+		<i class="ri-close-line search-close" id="search-close"></i>
+	 </div>
+	
+	 
+
+	 <!--==================== MAIN ====================-->
+	 <div class="main">
+		<iframe id="iframeTarget" name="teste" src="{{url_for('atualizarcorrelacaoallindicadores')}}" width="900" height="900"></iframe>
+	 </div>
+		
+	 <script src="../static/js/logado.js"></script>
+	 <script src="../static/js/carteira.js"></script>
+	 <script>
+		function op1() {
+			document.getElementById('iframeTarget').src = "{{url_for('calcularRiscoRetorno', opcao='all')}}";
+		}
+		function op2() {
+			document.getElementById('iframeTarget').src = "{{url_for('correlacaotickerindicador')}}";
+		}
+		function op3() {
+			document.getElementById('iframeTarget').src = "{{url_for('atualizarcorrelacaoallindicadores')}}";
+		}
+		function op4() {
+			document.getElementById('iframeTarget').src = "{{url_for('gerarrankingdividendos', opcao='all')}}";
+		}
+		
+	 </script>
+</body>
+</html>
