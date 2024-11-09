@@ -1,0 +1,83 @@
+
+
+.containerCards {
+  cursor: pointer;
+  width: 100%;
+  max-width: 800px;
+  margin: 10px auto;
+  overflow-x: hidden;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+
+}
+
+.action {
+  padding-right: 150px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Definindo a largura da coluna */
+  flex: 1; /* Faz com que cada coluna use o mesmo espaço disponível */
+  min-width: 300px; /* Ajuste de largura mínima para cada coluna */
+}
+
+h3 {
+  color: white;
+  background-color: hsl(230, 51%, 40%);
+  border-radius: 10px 10px 0 0;
+  font-family: sans-serif;
+  font-size: 13px;
+  padding: 5px 0;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1.1em;
+}
+
+td {
+  padding: 0 10px;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+.value-action {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.info-action td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.186);
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+  color: hsl(230, 51%, 40%);
+}
+
+a:hover {
+  color: #4800ff;
+}
+
+thead .transp {
+  background-color: transparent;
+}

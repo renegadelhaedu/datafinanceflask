@@ -1,0 +1,110 @@
+body{
+    padding-top: 70px;
+}
+
+.banner{
+    height: 75px;
+    margin: 0px -10px 10px;
+    background-color: rgb(66, 196, 247);
+    border-radius: 2px;
+
+}
+.banner1{
+    height: 50px;
+    margin: 0px -10px 10px;
+    background-color: rgb(20, 18, 135);
+    border-radius: 2px;
+
+}
+
+.banner2{
+    height: 35px;
+    margin: 0px -10px 10px;
+    background-color: rgb(169, 169, 169);
+    border-radius: 2px;
+
+}
+.divsepara{
+    height: 3px;
+    margin: 5px 0px 0px ;
+    background-color: rgb(20, 18, 135);
+    border-radius: 2px;
+
+}
+
+link {
+    color: white;
+}
+h2, h2:link {
+  color: white;
+  font-size: 20px;
+
+}
+
+h1 {
+    color: white;
+    font-size: 45px;
+    margin: 5px 10px 10px;
+}
+
+h3 {
+    display: block;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 5px 10px 10px;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 98%;
+}
+.card {
+
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+.card.red {
+    background-color: red;
+}
+.card.green {
+    background-color: green;
+}
+.stock-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.stock-description {
+    font-size: 14px;
+    opacity: 0.8;
+}
+.stock-percentage {
+    font-size: 16px;
+    font-weight: bold;
+    align-self: start;
+}
+.stock-percentage.red {
+    color: white;
+}
+.stock-percentage.green {
+    color: white;
+}
+.stock-price {
+    font-size: 24px;
+    font-weight: bold;
+    align-self: end;
+    text-align: right;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,80 @@
+*{
+  font-family: sans-serif;
+}
+body{
+}
+
+.container{
+  cursor: pointer;
+  width: 27.2%;
+  max-width: 370px;
+  height: 185px;
+  margin: 10px auto;
+}
+
+.container, h3 {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+}
+
+h3{
+  color: white;
+  background-color: hsl(230, 51%, 40%);
+  border-radius: 10px 10px 0 0;
+  font-family: sans-serif;
+  font-size: 13px;
+  padding: 5px 0;
+  margin: 10px -1px -1px -1px;
+}
+
+tbody:hover{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  transition: box-shadow 0.5s ease;
+}
+
+.action{
+  padding-right: 190px;
+}
+
+table {
+  border-collapse: collapse; /* Combina as bordas das células */
+  margin-left: 7em;
+}
+
+td {
+  padding: 0 10px; /* Adiciona um espaçamento lateral de 10px */
+  font-size: 12px;
+}
+
+
+.info-action td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.186);
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Estilo para linhas ímpares */
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+a{
+  text-decoration: none;
+}
+
+a:hover{
+  color: #4800ff;
+}
+.cardActions{
+  display: flex;
+}
+thead .transp{
+  background-color: transparent;
+}
+
+
