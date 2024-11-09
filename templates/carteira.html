@@ -34,6 +34,10 @@
 					<li class="nav-item">
 						<a href="#" class="nav-link" onclick="op4()">Dividendos</a>
 					</li>
+
+					<li class="nav-item">
+						<a href="/logout" class="nav-link">Logout</a>
+					</li>
 				</ul>
 
 				<div class="nav-close" id="nav-close">
@@ -104,20 +108,5 @@
 		
 	 <script src="../static/js/logado.js"></script>
 	 <script src="../static/js/carteira.js"></script>
-	 <script>
-		function op1() {
-			document.getElementById('iframeTarget').src = "{{url_for('calcularRiscoRetorno', opcao='all')}}";
-		}
-		function op2() {
-			document.getElementById('iframeTarget').src = "{{url_for('correlacaotickerindicador')}}";
-		}
-		function op3() {
-			document.getElementById('iframeTarget').src = "{{url_for('atualizarcorrelacaoallindicadores')}}";
-		}
-		function op4() {
-			document.getElementById('iframeTarget').src = "{{url_for('gerarrankingdividendos', opcao='all')}}";
-		}
-		
-	 </script>
 </body>
 </html>
