@@ -23,10 +23,19 @@ def login():
 def gerarmoduloanalise():
     return render_template('logado.html')
 
-@app.route('/retornar')
+@app.route('/logout')
+def logout():
+    session.pop('login_user', None)
+
+    return make_response(render_template('home.html'))
+
+@app.route('/homepageuser')
 def retornar():
     if 'user' in session:
         user = session['user']
+        nome = user[0]
+        estado = user[1]
+        profissao = user[2]
         return render_template('logado.html', name=nome, state=estado, profession=profissao)
     else:
         return redirect(url_for('verificarlogin'))
@@ -57,18 +66,14 @@ def registrar_user():
 def verificarlogin():
 
     dao.conectardb()
-
     user = request.form.get('username')
     senha = request.form.get('password')
 
     saida = dao.login(user, senha)
-    nome = saida[0][0]
-    estado = saida[0][1]
-    profissao = saida[0][2]
-    
-    if dao.login(user, senha):
-        session['user'] = user
-        return render_template('logado.html', name=nome, state=estado, profession=profissao)
+
+    if len(dao.login(user, senha)) > 0:
+        session['user'] = saida[0]
+        return render_template('logado.html', name=saida[0][0], state=saida[0][1], profession=saida[0][2])
     else:
         return render_template('login.html',msg_erro='usuário ou senha incorreta')
     

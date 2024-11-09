@@ -13,11 +13,10 @@ def conectardb():
 def login(user,senha):
     con = conectardb()
     cur = con.cursor()
-    sq = f"SELECT nome, estado, profissao from registros where email='{user}' and senha='{senha}'  "
+    sq = f"SELECT nome, estado, profissao, email from registros where email='{user}' and senha='{senha}'  "
     cur.execute(sq)
     saida = cur.fetchall()
 
-    print(saida)
     return saida
 
 def inserir_user(nome, email, estado, profissao, senha):
@@ -51,3 +50,6 @@ def getMinhasEmpresasListadas():
 def getCarteira():
     return {'SIMH3':30, 'TAEE11':6, 'ALUP11':13, 'EGIE3':8, 'KLBN11':11, 'ITSA4':30,
              'PSSA3':7, 'BBSE3':9, 'VBBR3':13, 'BRSR6':22, 'TUPY3':6, 'BBAS3':6, 'VALE3':3}
+
+
+print(login('rene@rene','12345'))
