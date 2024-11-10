@@ -27,8 +27,6 @@ def login(user,senha):
 def inserir_user(nome, email, estado, profissao, senha):
 
     agora = datetime.datetime.now()
-
-
     data_formatada = agora.strftime('%d/%m/%Y')
     conn = conectardb()
     cur = conn.cursor()
@@ -52,11 +50,14 @@ def inserir_user(nome, email, estado, profissao, senha):
     return exito
 
 
-def inserir_acao(nome, email, estado, profissao, senha):
+def inserir_acao(email, codigo, qtde, preco_medio):
     conn = conectardb()
     cur = conn.cursor()
+    data = datetime.datetime.now().strftime('%d/%m/%Y')
+
     try:
-        sql = f"INSERT INTO usuario (email, senha, nome, estado, profissao) VALUES ('{email}','{senha}','{nome}', '{estado}', '{profissao}' )"
+        sql = (f"INSERT INTO acao (email_usuario, simbolo, quantidade, preco_compra, data_compra)"
+               f" VALUES ('{email}','{codigo}','{qtde}', '{preco_medio}', '{data}' )")
         cur.execute(sql)
     except psycopg2.IntegrityError:
         conn.rollback()
@@ -68,6 +69,23 @@ def inserir_acao(nome, email, estado, profissao, senha):
     cur.close()
     conn.close()
     return exito
+
+def get_carteira(email):
+    con = conectardb()
+    cur = con.cursor()
+    sql = (f"SELECT a.simbolo, a.quantidade FROM usuario u JOIN carteira c ON u.email = c.email_usuario "
+           f"JOIN acao a ON c.email_usuario = a.email_usuario WHERE u.email = '{email}';")
+
+    cur.execute(sql)
+    saida = cur.fetchall()
+
+    cur.close()
+    con.close()
+
+    acoes_dict = {simbolo: quantidade for simbolo, quantidade in saida}
+
+    return acoes_dict
+
 
 
 def criar_tabelas():
@@ -116,7 +134,7 @@ def getEmpresasListadasAntigas():
 def getMinhasEmpresasListadas():
     return ['BBSE3', 'PSSA3', 'BBAS3','BRSR6','ITSA4','EGIE3','ALUP11','TAEE11','KLBN4','VALE3', 'TUPY3','FESA4']
 
-def getCarteira():
+def getCarteirastatic():
     return {'SIMH3':30, 'TAEE11':6, 'ALUP11':13, 'EGIE3':8, 'KLBN11':11, 'ITSA4':30,
              'PSSA3':7, 'BBSE3':9, 'VBBR3':13, 'BRSR6':22, 'TUPY3':6, 'BBAS3':6, 'VALE3':3}
 

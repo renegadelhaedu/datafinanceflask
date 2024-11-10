@@ -6,17 +6,26 @@
 </head>
 <body>
 
-    <h1>Adicionar ACAO</h1>
-    <br><br><br>
+    <div>
+            <h1>Adicionar ACAO</h1>
+            <br><br><br>
+    </div>
 
-    <form action="/acao/inserir" method="post">
-        <label>Código da Ação</label>
-        <input type="text" maxlength="6"><br>
+    <div>
+        <form action="/acoes/adicionar" method="post">
+            <label>Código da Ação</label>
+            <input type="text" name="codigo" maxlength="6"><br>
 
-        <label>Quantidade de ações</label>
-        <input type="number" maxlength="10"><br>
+            <label>Quantidade de ações</label>
+            <input type="number" name="qtde" maxlength="10"><br>
 
-    </form>
+            <label>Preço Médio</label>
+            <input type="text" name="precomedio" maxlength="10"><br>
+
+            <button type="submit">Cadastrar Ação</button>
+        </form>
+
+    </div>
 
 </body>
 </html>

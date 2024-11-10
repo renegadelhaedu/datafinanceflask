@@ -1,9 +1,9 @@
 import pandas as pd
 import yfinance as yf
-from dao import *
+import dao
 
-def gerarPercentuais():
-    cart = getCarteira()
+def gerarPercentuais(email):
+    cart = dao.get_carteira(email)
     tikers = list(map(lambda x: x + '.SA', list(cart.keys())))
 
     data = yf.download(tikers)

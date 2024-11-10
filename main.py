@@ -94,7 +94,10 @@ def registro_page():
 
 @app.route('/carteira')
 def carteira():
-    return render_template('minhacarteira.html')
+    if 'user' in session:
+        return render_template('minhacarteira.html')
+    else:
+        return render_template('home.html')
 
 @app.route('/calcularRiscoRetorno/<opcao>', methods=['GET','POST'])
 def calcularRiscoRetorno(opcao):
@@ -107,12 +110,11 @@ def correlacaotickerindicador():
     if request.method == 'POST':
         indicador = request.form.get('indicador_radio')
         ticker = str(request.form.get('ticker'))
-
         correlacao, graficodados = da.gerarcorrelacaoindividual(ticker, indicador)
         return render_template('correlationindicador.html', correlac=correlacao, plot=gr.gerarGrafCorrInd(graficodados,indicador))
-
     else:
         return render_template('correlationindicador.html')
+
 
 @app.route('/correlacaoindicadores', methods=['POST','GET'])
 def correlacaoallindicadores():
@@ -124,22 +126,24 @@ def correlacaoallindicadores():
     return render_template('correlationindicadores.html',
                            plot=gr.gerarGrafCorrIndicAll3D(dataCorr))
 
+
 @app.route('/atualizarcorrelacaoindicadores')
 def atualizarcorrelacaoallindicadores():
     atualizar.atualizar()
     return redirect('/correlacaoindicadores')
 
+
 @app.route('/gerariframeprincipal')
 def gerariframeprincipal():
     pares = da.pegarcotacoes()
-
     return render_template('Carousel.html', pares=pares)
+
 
 @app.route('/gerariframecard')
 def gerariframecard():
     pares = da.gerar_listas_acoes_cotacoes()
-
     return render_template('cardActions.html', pares=pares)
+
 
 @app.route('/exibirdetalhesacao/<nome>', methods=['GET'])
 def exibir_detalhes_acao(nome):
@@ -150,18 +154,35 @@ def exibir_detalhes_acao(nome):
     return render_template('dataActions.html', plot=graf, nome=nome, valor=round(valor_acao,2), info=info)
 
 
+@app.route('/acoes/adicionar', methods=['POST'])
+def inserir_acao():
+    if 'user' in session:
+        codigo = request.form.get('codigo')
+        qtde = request.form.get('qtde')
+        pmedio = request.form.get('precomedio') #falta fazer tratamento ------------
+        email = session['user'][3]
+        print(email)
+        if dao.inserir_acao(email, codigo, qtde, pmedio):
+            return redirect(url_for('gerarminhacarteira'))
+        else:
+            return '<h2>ação nao foi inserida</h2>' #criar pagina de erro ao inserir------------
+    else:
+        return render_template('home.html')
+
+
 @app.route('/acoes/paginas/<string:metodo>')
 def pagina_acoes_add(metodo):
-    if metodo == 'adicionar':
+
+    if metodo == 'adicionar' and 'user' in session:
         return render_template('adicionaracao.html')
-    elif metodo == 'atualizar':
+    elif metodo == 'atualizar' and 'user' in session:
         return render_template('atualizaracao.html')
     else:
         return render_template('minhacarteira.html')
 
 @app.route("/gerarminhacarteira")
 def gerarminhacarteira():
-    data, grid = gf.gerarPercentuais()
+    data, grid = gf.gerarPercentuais(session['user'][3])
     lista = [['ticker', 'percentual']]
     for key, val in data.items():
         lista.append([key, val])
