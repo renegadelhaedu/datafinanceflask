@@ -1,4 +1,5 @@
 import psycopg2
+import datetime
 
 def conectardb():
     con = psycopg2.connect(
@@ -10,10 +11,11 @@ def conectardb():
 
     return con
 
+
 def login(user,senha):
     con = conectardb()
     cur = con.cursor()
-    sq = f"SELECT nome, estado, profissao, email from registros where email='{user}' and senha='{senha}'  "
+    sq = f"SELECT nome, estado, profissao, email from usuario where email='{user}' and senha='{senha}'  "
     cur.execute(sq)
     saida = cur.fetchall()
 
@@ -23,10 +25,38 @@ def login(user,senha):
     return saida
 
 def inserir_user(nome, email, estado, profissao, senha):
+
+    agora = datetime.datetime.now()
+
+
+    data_formatada = agora.strftime('%d/%m/%Y')
     conn = conectardb()
     cur = conn.cursor()
     try:
-        sql = f"INSERT INTO registros (email, senha, nome, estado, profissao) VALUES ('{email}','{senha}','{nome}', '{estado}', '{profissao}' )"
+        sql = f"INSERT INTO usuario (email, senha, nome, estado, profissao) VALUES ('{email}','{senha}','{nome}', '{estado}', '{profissao}' )"
+        cur.execute(sql)
+
+        sql2 = f"INSERT INTO carteira (email_usuario, data_criacao) VALUES('{email}', '{data_formatada}')"
+        cur.execute(sql2)
+
+
+    except psycopg2.IntegrityError:
+        conn.rollback()
+        exito = False
+    else:
+        conn.commit()
+        exito = True
+
+    cur.close()
+    conn.close()
+    return exito
+
+
+def inserir_acao(nome, email, estado, profissao, senha):
+    conn = conectardb()
+    cur = conn.cursor()
+    try:
+        sql = f"INSERT INTO usuario (email, senha, nome, estado, profissao) VALUES ('{email}','{senha}','{nome}', '{estado}', '{profissao}' )"
         cur.execute(sql)
     except psycopg2.IntegrityError:
         conn.rollback()
@@ -38,6 +68,41 @@ def inserir_user(nome, email, estado, profissao, senha):
     cur.close()
     conn.close()
     return exito
+
+
+def criar_tabelas():
+    con = conectardb()
+    cur = con.cursor()
+
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS public.usuario(
+        email VARCHAR(255) NOT NULL,
+        senha VARCHAR(255) NOT NULL,
+        nome VARCHAR(255)  NOT NULL,
+        estado text NOT NULL,
+        profissao text NOT NULL,
+        CONSTRAINT usuarios_pkey PRIMARY KEY (email)
+    );
+    
+    CREATE TABLE carteira (
+        email_usuario VARCHAR(255) PRIMARY KEY REFERENCES usuario(email) ON DELETE CASCADE,
+        data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+    CREATE TABLE acao (
+        id SERIAL PRIMARY KEY,
+        email_usuario VARCHAR(255) REFERENCES carteira(email_usuario) ON DELETE CASCADE,
+        simbolo VARCHAR(10) NOT NULL,
+        quantidade INTEGER NOT NULL,
+        preco_compra DECIMAL(10, 2) NOT NULL,
+        data_compra TIMESTAMP NOT NULL
+    );
+    """
+
+    cur.execute(create_table_query)
+    con.commit()
+    con.close()
+
 
 def getEmpresasListadasAntigas():
     return ['ABCB4', 'ABEV3', 'AGRO3', 'ALUP11', 'ARZZ3', 'B3SA3', 'BBAS3', 'BBDC4', 'BBSE3', 'BEEF3', 'BPAN4',
@@ -55,5 +120,3 @@ def getCarteira():
     return {'SIMH3':30, 'TAEE11':6, 'ALUP11':13, 'EGIE3':8, 'KLBN11':11, 'ITSA4':30,
              'PSSA3':7, 'BBSE3':9, 'VBBR3':13, 'BRSR6':22, 'TUPY3':6, 'BBAS3':6, 'VALE3':3}
 
-
-print(inserir_user('maria','maria@catolica.pb','pb','caca','12345'))

@@ -25,7 +25,7 @@ def gerarmoduloanalise():
 
 @app.route('/logout')
 def logout():
-    session.pop('login_user', None)
+    session.pop('user', None)
 
     return make_response(render_template('home.html'))
 
@@ -63,17 +63,27 @@ def registrar_user():
 @app.route('/verificarlogin', methods=['POST','GET'])
 def verificarlogin():
 
-    user = request.form.get('username')
-    senha = request.form.get('password')
+    if request.method == 'POST':
 
-    saida = dao.login(user, senha)
+        login = request.form.get('username')
+        senha = request.form.get('password')
 
-    if len(dao.login(user, senha)) > 0:
-        session['user'] = saida[0]
-        return render_template('logado.html', name=saida[0][0], state=saida[0][1], profession=saida[0][2])
+        usuario = dao.login(login, senha)
+
+        if len(usuario) > 0:
+            session['user'] = usuario[0]
+            return render_template('logado.html', name=usuario[0][0], state=usuario[0][1], profession=usuario[0][2])
+        else:
+            return render_template('login.html',msg_erro='usuário ou senha incorreta')
+
+    elif request.method == 'GET' and 'user' in session:
+        usuario = session['user']
+        return render_template('logado.html', name=usuario[0][0], state=usuario[1], profession=usuario[2])
+
     else:
-        return render_template('login.html',msg_erro='usuário ou senha incorreta')
-    
+        return render_template('login.html')
+
+
 @app.route('/teste')
 def teste():
     return render_template('hometeste.html')
@@ -84,7 +94,7 @@ def registro_page():
 
 @app.route('/carteira')
 def carteira():
-    return render_template('carteira.html')
+    return render_template('minhacarteira.html')
 
 @app.route('/calcularRiscoRetorno/<opcao>', methods=['GET','POST'])
 def calcularRiscoRetorno(opcao):
@@ -139,6 +149,16 @@ def exibir_detalhes_acao(nome):
     graf, valor_acao= gr.dados_acao(nome)
     return render_template('dataActions.html', plot=graf, nome=nome, valor=round(valor_acao,2), info=info)
 
+
+@app.route('/acoes/paginas/<string:metodo>')
+def pagina_acoes_add(metodo):
+    if metodo == 'adicionar':
+        return render_template('adicionaracao.html')
+    elif metodo == 'atualizar':
+        return render_template('atualizaracao.html')
+    else:
+        return render_template('minhacarteira.html')
+
 @app.route("/gerarminhacarteira")
 def gerarminhacarteira():
     data, grid = gf.gerarPercentuais()
@@ -146,7 +166,7 @@ def gerarminhacarteira():
     for key, val in data.items():
         lista.append([key, val])
 
-    return render_template('minhacarteira.html', data=lista, grid=grid)
+    return render_template('mostrarcarteira.html', data=lista, grid=grid)
 
 @app.route('/rankingdividendos/<opcao>', methods=['GET','POST'])
 def gerarrankingdividendos(opcao):

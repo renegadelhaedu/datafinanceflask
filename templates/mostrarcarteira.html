@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Carteira - Gerenciamento de investimentos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mostrarcarteira.css') }}">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable({{data|safe}});
+
+        var options = {
+
+          is3D: false,
+          //pieHole: 0.5
+          pieStartAngle: 100
+          /*slices: {
+            2: {offset: 0.2},
+            3: {offset: 0.3}
+          }*/
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+<body>
+
+    <div class="banner1">
+        <h3>Minha Carteira de Ações</h3>
+
+    </div>
+
+    <div style="margin: 1px 0 0 1px;width: 500px">
+        <div id="piechart" style="width: 900px; height: 900px;"></div>
+    </div>
+
+    <div class="banner1">
+        <h3>Cotações</h3>
+
+    </div>
+
+    <div class="card-container">
+
+        {% for ticker, cotChg, cotAtual in grid: %}
+
+            {% if cotChg >= 0 %}
+                <div class="card green">
+                    <div>
+                        <div class="stock-title">{{ ticker }}</div>
+
+                        <div class="stock-percentage green">{{ cotChg }}%</div>
+                    </div>
+                    <div class="stock-price">{{ cotAtual }}</div>
+                </div>
+            {% else %}
+                <div class="card red">
+                    <div>
+                        <div class="stock-title">{{ ticker }}</div>
+
+                        <div class="stock-percentage red">{{ cotChg }}%</div>
+                    </div>
+                    <div class="stock-price">{{ cotAtual }}</div>
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>
