@@ -2,11 +2,18 @@ import psycopg2
 import datetime
 
 def conectardb():
+
     con = psycopg2.connect(
-        host='localhost',
+
+        #host='localhost',
+        #database = 'datafinanceflask',
+        #user = 'postgres',
+        #password = '12345'
+
+        host='dpg-csr4p61u0jms73cig53g-a.oregon-postgres.render.com',
     database = 'datafinanceflask',
-        user = 'postgres',
-    password = '12345'
+        user = 'datafinanceflask',
+    password = 'mBfO8LOAkdUY1n7JwqMtT5wvYn6NbJWK'
     )
 
     return con
@@ -87,7 +94,6 @@ def get_carteira(email):
     return acoes_dict
 
 
-
 def criar_tabelas():
     con = conectardb()
     cur = con.cursor()
@@ -121,6 +127,7 @@ def criar_tabelas():
     con.commit()
     con.close()
 
+criar_tabelas()
 
 def getEmpresasListadasAntigas():
     return ['ABCB4', 'ABEV3', 'AGRO3', 'ALUP11', 'ARZZ3', 'B3SA3', 'BBAS3', 'BBDC4', 'BBSE3', 'BEEF3', 'BPAN4',
