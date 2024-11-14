@@ -1,5 +1,5 @@
 :root {
-  --main-color: hsl(230, 51%, 40%);
+  --main-color: #32439a;
 }
 
 * {
@@ -53,7 +53,8 @@ header nav ul li:hover {
 
 
 
-footer{
+
+/* footer{
   font-family: 'Segoe UI';
   font-weight: 400;
   margin: 0;
@@ -120,4 +121,4 @@ footer{
   text-align: center;
   font-size: 13px;
   color: #ffffff;
-}
+}*/
