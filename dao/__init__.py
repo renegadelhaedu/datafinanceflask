@@ -33,15 +33,13 @@ def login(user,senha):
 
 def inserir_user(nome, email, estado, profissao, senha):
 
-    agora = datetime.datetime.now()
-    data_formatada = agora.strftime('%d/%m/%Y')
     conn = conectardb()
     cur = conn.cursor()
     try:
         sql = f"INSERT INTO usuario (email, senha, nome, estado, profissao) VALUES ('{email}','{senha}','{nome}', '{estado}', '{profissao}' )"
         cur.execute(sql)
 
-        sql2 = f"INSERT INTO carteira (email_usuario, data_criacao) VALUES('{email}', '{data_formatada}')"
+        sql2 = f"INSERT INTO carteira (email_usuario) VALUES('{email}')"
         cur.execute(sql2)
 
 
@@ -60,15 +58,15 @@ def inserir_user(nome, email, estado, profissao, senha):
 def inserir_acao(email, codigo, qtde, preco_medio):
     conn = conectardb()
     cur = conn.cursor()
-    data = datetime.datetime.now().strftime('%d/%m/%Y')
 
     try:
-        sql = (f"INSERT INTO acao (email_usuario, simbolo, quantidade, preco_compra, data_compra)"
-               f" VALUES ('{email}','{codigo}','{qtde}', '{preco_medio}', '{data}' )")
+        sql = (f"INSERT INTO acao (email_usuario, simbolo, quantidade, preco_compra)"
+               f" VALUES ('{email}','{codigo}','{qtde}', '{preco_medio}')")
         cur.execute(sql)
-    except psycopg2.IntegrityError:
+    except psycopg2.Error as e:
         conn.rollback()
         exito = False
+        print(e)
     else:
         conn.commit()
         exito = True
@@ -119,7 +117,7 @@ def criar_tabelas():
         simbolo VARCHAR(10) NOT NULL,
         quantidade INTEGER NOT NULL,
         preco_compra DECIMAL(10, 2) NOT NULL,
-        data_compra TIMESTAMP NOT NULL
+        data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """
 

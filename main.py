@@ -136,6 +136,7 @@ def atualizarcorrelacaoallindicadores():
 @app.route('/gerariframeprincipal')
 def gerariframeprincipal():
     pares = da.pegarcotacoes()
+
     return render_template('Carousel.html', pares=pares)
 
 
@@ -161,7 +162,7 @@ def inserir_acao():
         qtde = request.form.get('qtde')
         pmedio = request.form.get('precomedio') #falta fazer tratamento ------------
         email = session['user'][3]
-        print(email)
+
         if dao.inserir_acao(email, codigo, qtde, pmedio):
             return redirect(url_for('gerarminhacarteira'))
         else:
@@ -182,12 +183,18 @@ def pagina_acoes_add(metodo):
 
 @app.route("/gerarminhacarteira")
 def gerarminhacarteira():
-    data, grid = gf.gerarPercentuais(session['user'][3])
-    lista = [['ticker', 'percentual']]
-    for key, val in data.items():
-        lista.append([key, val])
+    if 'user' in session:
+        data, grid = gf.gerarPercentuais(session['user'][3])
+        if data is None:
+            return render_template('adicionaracao.html')
 
-    return render_template('mostrarcarteira.html', data=lista, grid=grid)
+        lista = [['ticker', 'percentual']]
+        for key, val in data.items():
+            lista.append([key, val])
+
+        return render_template('mostrarcarteira.html', data=lista, grid=grid)
+    else:
+        return render_template('home.html')
 
 @app.route('/rankingdividendos/<opcao>', methods=['GET','POST'])
 def gerarrankingdividendos(opcao):
