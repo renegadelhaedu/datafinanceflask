@@ -127,7 +127,6 @@ def criar_tabelas():
     con.commit()
     con.close()
 
-criar_tabelas()
 
 def getEmpresasListadasAntigas():
     return ['ABCB4', 'ABEV3', 'AGRO3', 'ALUP11', 'ARZZ3', 'B3SA3', 'BBAS3', 'BBDC4', 'BBSE3', 'BEEF3', 'BPAN4',
