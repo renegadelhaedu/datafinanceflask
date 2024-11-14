@@ -1,3 +1,28 @@
+const loginButton = document.querySelector("#login-button")
+const loginContainer = document.querySelector("#login-container")
+const loginClose = document.querySelector("#login-close")
+
+
+loginButton.addEventListener("click", () => {
+   loginContainer.classList.toggle("hidden")
+   console.log(loginContainer);
+})
+
+loginClose.addEventListener("click", () => {
+   loginContainer.classList.toggle("hidden")
+})
+
+
+
+
+
+
+
+
+
+
+
+
 function op1() {
     document.getElementById('iframeTarget').src = "{{url_for('atualizarcorrelacaoallindicadores')}}";
     var data = document.getElementById('nameData');
@@ -55,21 +80,6 @@ searchBtn.addEventListener('click', () =>{
 /* Search hidden */
 searchClose.addEventListener('click', () =>{
    search.classList.remove('show-search')
-})
-
-/*=============== LOGIN ===============*/
-const login = document.getElementById('login'),
-      loginBtn = document.getElementById('login-btn'),
-      loginClose = document.getElementById('login-close')
-
-/* Login show */
-loginBtn.addEventListener('click', () =>{
-   login.classList.add('show-login')
-})
-
-/* Login hidden */
-loginClose.addEventListener('click', () =>{
-   login.classList.remove('show-login')
 })
 
 /*=============== CAROUSEL ===============*/
