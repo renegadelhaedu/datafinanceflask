@@ -135,6 +135,7 @@ def gerariframeprincipal():
 @app.route('/gerariframecard')
 def gerariframecard():
     pares = da.gerar_listas_acoes_cotacoes()
+    print(pares)
     return render_template('cardActions.html', pares=pares)
 
 
