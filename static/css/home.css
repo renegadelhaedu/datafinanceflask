@@ -192,18 +192,43 @@ header nav ul li:hover {
 .login-form span a {
   color: var(--main-color);
 }
-/* footer{
-  font-family: 'Segoe UI';
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+
+/* MAIN CONTENT */
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.footer{
-  padding: 20px 0;
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.content iframe {
+  border: none;
+}
+
+.content #iframe-card {
+  height: 60vh;
+  width: 70%;
+}
+
+.content #iframe-carousel {
+  width: 800px;
+}
+
+
+/* footer{
+  font-weight: 400;
+  width: 100%;
   background-color: #32439a;
 }
+
 
 .footer .social{
   text-align: center;
@@ -218,12 +243,11 @@ header nav ul li:hover {
   width: 40px;
   height: 40px;
   line-height: 38px;
-  display: inline-block;
   text-align: center;
   border-radius: 50%;
   margin: 0 8px;
   opacity: 0.75;
-}
+} 
 
 .footer .social a:hover{
   opacity: 0.9;
@@ -246,7 +270,6 @@ header nav ul li:hover {
 }
 
 .footer ul li{
-  display: inline-block;
   padding: 0 15px;
 }
 
@@ -259,4 +282,4 @@ header nav ul li:hover {
   text-align: center;
   font-size: 13px;
   color: #ffffff;
-}*/
+}  */
