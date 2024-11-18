@@ -210,7 +210,11 @@ def pegar_listadas():
 
 def pegar_maiores_empresas():
     actual_dir = pathlib.Path().absolute()
-    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
+    print("-----------------XXX----------")
+    print(actual_dir)
+    BASE_DIR = pathlib.Path(__file__).resolve().parent
+    print(BASE_DIR)
+    path = f'{BASE_DIR}/data/statusinvest-busca-avancada.csv'
     path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
     dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
     dados = dados[dados['TICKER'].isin(pegar_listadas())]
