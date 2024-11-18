@@ -21,7 +21,7 @@ body {
 
 header {
   width: 100%;
-  height: 80px;
+  height: 10%;
   background-color: var(--bg-color);
   display: flex;
   align-items: center;
@@ -192,71 +192,91 @@ header nav ul li:hover {
 .login-form span a {
   color: var(--main-color);
 }
-/* footer{
-  font-family: 'Segoe UI';
+
+/* MAIN CONTENT */
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.content iframe {
+  border: none;
+}
+
+.content #iframe-card {
+  width: 70%;
+  height: 450px;
+}
+
+.content #iframe-carousel {
+  width: 800px;
+  height: 100px;
+}
+
+/* FOOTER */
+
+
+footer{
   font-weight: 400;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.footer{
-  padding: 20px 0;
+  height: 10%;
+  width: 100%;
   background-color: #32439a;
+  color: #FFF;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.footer .social{
-  text-align: center;
-  padding-bottom: 25px;
-  color: #ffffff;
+footer section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.footer .social a{
-  font-size: 24px;
-  color: inherit;
-  border: 1px solid #ffffff93;
-  width: 40px;
-  height: 40px;
-  line-height: 38px;
-  display: inline-block;
-  text-align: center;
-  border-radius: 50%;
-  margin: 0 8px;
-  opacity: 0.75;
+footer section ul {
+  display: flex;
+  gap: 15px;
 }
 
-.footer .social a:hover{
-  opacity: 0.9;
+footer section ul li p {
+  color: #FFF;
+  transition: 0.5s;
 }
 
-.footer ul{
-  margin-top: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 0;
-  text-align: center;
+footer section ul li p:hover {
+  color: #BBB;
 }
 
-.footer ul a{
-  color: white;
-  text-decoration: none;
-  opacity: 0.8;
-}
+/* RESPONSIVIDADE */
 
-.footer ul li{
-  display: inline-block;
-  padding: 0 15px;
-}
+@media (max-width: 1366px){
+  header {
+    height: 10%;
+  }
 
-.footer ul li a:hover{
-  opacity: 1;
-}
+  main {
+    height: 80%;
+    margin-top: 0;
+  }
 
-.footer .copyright{
-  margin-top: 15px;
-  text-align: center;
-  font-size: 13px;
-  color: #ffffff;
-}*/
+  .content #iframe-carousel {
+    width: 600px;
+  }
+  
+  footer {
+    height: 10%;
+  }
+}
