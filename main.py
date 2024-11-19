@@ -151,7 +151,7 @@ def exibir_detalhes_acao(nome):
 @app.route('/acoes/adicionar', methods=['POST'])
 def inserir_acao():
     if 'user' in session:
-        codigo = request.form.get('codigo')
+        codigo = request.form.get('codigo') #falta verificar se o codigo da açao é valido
         qtde = request.form.get('qtde')
         pmedio = request.form.get('precomedio') #falta fazer tratamento ------------
         email = session['user'][3]

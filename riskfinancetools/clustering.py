@@ -3,10 +3,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 import pandas as pd
-from .portfolio_analisys import walletAnalisys
-import matplotlib.pyplot as plt  # Correção na importação
 
-def clusteringKmeans(data=None, csvData=None, displayPlot=True):
+def clusteringKmeans(data=None, csvData=None, displayPlot=False):
     # Carrega o DataFrame e remove a coluna 'TICKER' para o clustering
     if data is None:
         data = pd.read_csv(csvData)
