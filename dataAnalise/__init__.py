@@ -210,15 +210,13 @@ def pegar_listadas():
 
 def pegar_maiores_empresas():
     actual_dir = pathlib.Path().absolute()
-    print("-----------------XXX----------")
-    print(actual_dir)
-    BASE_DIR = pathlib.Path(__file__).resolve().parent
-    print(BASE_DIR)
+
     path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
     #path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
     dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
     dados = dados[dados['TICKER'].isin(pegar_listadas())]
     retorno = []
+
     #maior valor de mercado
     lista = dados.sort_values(by=[' VALOR DE MERCADO'], ascending=False)
     retorno.append(list(lista['TICKER'].head(6).to_dict().values()))
@@ -247,10 +245,9 @@ def isListed(dados):
 
 def get_cotacao_ticker(tickers):
     tickers = [x + '.SA' for x in tickers]
-    print(tickers)
+
     pares  = yf.download(tickers, period='1mo')['Adj Close']
     pares_ffill = pares.ffill()
-    print(pares_ffill.iloc[-1].to_dict())
     return pares_ffill.iloc[-1].to_dict()
 
 def gerar_listas_acoes_cotacoes():
