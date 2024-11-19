@@ -63,17 +63,49 @@ def inserir_acao(email, codigo, qtde, preco_medio):
         sql = (f"INSERT INTO acao (email_usuario, simbolo, quantidade, preco_compra)"
                f" VALUES ('{email}','{codigo}','{qtde}', '{preco_medio}')")
         cur.execute(sql)
+        conn.commit()
     except psycopg2.Error as e:
         conn.rollback()
         exito = False
         print(e)
     else:
-        conn.commit()
         exito = True
 
     cur.close()
     conn.close()
     return exito
+
+def atualizar_acoes(email, acoes_modificadas):
+    conn = conectardb()
+    cur = conn.cursor()
+
+    try:
+        query = """
+                    UPDATE acao
+                    SET quantidade = CASE simbolo
+                """
+
+        for simbolo, nova_quantidade in acoes_modificadas.items():
+            query += f" WHEN '{simbolo}' THEN {nova_quantidade}"
+
+        query += " END WHERE email_usuario = %s AND simbolo IN %s;"
+
+        simbolos = tuple(acoes_modificadas.keys())
+
+        cur.execute(query, (email, simbolos))
+        conn.commit()
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        exito = False
+        print(e)
+    else:
+        exito = True
+
+    cur.close()
+    conn.close()
+    return exito
+
 
 def get_carteira(email):
     con = conectardb()

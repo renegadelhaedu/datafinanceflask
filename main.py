@@ -72,13 +72,13 @@ def verificarlogin():
 
         if len(usuario) > 0:
             session['user'] = usuario[0]
-            return render_template('logado.html', name=usuario[0][0], state=usuario[0][1], profession=usuario[0][2])
+            return render_template('logado.html', name=usuario[0][0], profession=usuario[0][2])
         else:
             return render_template('login.html',msg_erro='usuário ou senha incorreta')
 
     elif request.method == 'GET' and 'user' in session:
         usuario = session['user']
-        return render_template('logado.html', name=usuario[0][0], state=usuario[1], profession=usuario[2])
+        return render_template('logado.html', name=usuario[0][0], profession=usuario[2])
 
     else:
         return render_template('login.html')
@@ -164,13 +164,38 @@ def inserir_acao():
         return render_template('home.html')
 
 
+@app.route('/acoes/atualizar', methods=['POST'])
+def atualizar_acao():
+    if 'user' in session and 'carteira' in session:
+        carteira_atualizada = dict()
+        for acao in session['carteira'].keys():
+            qtde_acao = int(request.form.get(acao))
+            if qtde_acao != session['carteira'].get(acao):
+                carteira_atualizada[acao] = qtde_acao
+
+        if len(carteira_atualizada) > 0:
+            if dao.atualizar_acoes(session['user'][3], carteira_atualizada):
+                return redirect(url_for('gerarminhacarteira'))
+            else:
+                return redirect(url_for('gerarminhacarteira'))
+        else:
+            return redirect(url_for('gerarminhacarteira'))
+
+
 @app.route('/acoes/paginas/<string:metodo>')
 def pagina_acoes_add(metodo):
 
     if metodo == 'adicionar' and 'user' in session:
         return render_template('adicionaracao.html')
+
     elif metodo == 'atualizar' and 'user' in session:
-        return render_template('atualizaracao.html')
+        carteira = dao.get_carteira(session['user'][3])
+        session['carteira'] = carteira
+        lista = [(chave, carteira.get(chave)) for chave in carteira.keys()]
+        return render_template('atualizaracao.html', acoes=lista)
+
+    elif metodo == 'excluir' and 'user' in session:
+        return render_template('adicionaracao.html') #---------falta fazer
     else:
         return render_template('minhacarteira.html')
 
