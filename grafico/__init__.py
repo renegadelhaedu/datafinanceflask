@@ -22,9 +22,11 @@ def gerarBarGrafDividendos(data):
 def gerarBarGrafValores(data):
     fig = px.bar(data, x='TICKER', y='PRECO', hover_data=['PRECO'])
     fig.update_layout(
-    xaxis=dict(
-        tickangle=-90
-    )
+        xaxis=dict(
+            tickangle=-90
+        ),
+        autosize=True,  # Ajusta automaticamente o tamanho
+        margin=dict(l=20, r=20, t=20, b=40),  # Altura do gráfico em pixels
     )
     return fig.to_html()
 
