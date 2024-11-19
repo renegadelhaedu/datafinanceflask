@@ -1,5 +1,4 @@
 import psycopg2
-import datetime
 
 def conectardb():
 
@@ -11,9 +10,9 @@ def conectardb():
         #password = '12345'
 
         host='dpg-csr4p61u0jms73cig53g-a.oregon-postgres.render.com',
-    database = 'datafinanceflask',
+        database = 'datafinanceflask',
         user = 'datafinanceflask',
-    password = 'mBfO8LOAkdUY1n7JwqMtT5wvYn6NbJWK'
+        password = 'mBfO8LOAkdUY1n7JwqMtT5wvYn6NbJWK'
     )
 
     return con
