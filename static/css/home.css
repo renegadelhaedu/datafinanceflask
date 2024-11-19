@@ -15,6 +15,7 @@
 
 body {
   height: 100vh;
+  overflow: hidden;
 }
 
 /* HEADER */
@@ -212,16 +213,23 @@ main {
 
 .content iframe {
   border: none;
+  overflow: hidden;
 }
 
 .content #iframe-card {
-  width: 70%;
+  width: 100%;
   height: 450px;
 }
 
 .content #iframe-carousel {
   width: 800px;
   height: 100px;
+}
+
+.content #iframe-main {
+  overflow: hidden;
+  width: 70%;
+  height: 500px;
 }
 
 /* FOOTER */
