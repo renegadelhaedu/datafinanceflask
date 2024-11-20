@@ -3,6 +3,7 @@ import numpy as np
 import yfinance as yf
 from dao import *
 import pathlib
+import datetime as dt
 
 def pegarcotacoes():
     nomesAcoes = ['bbas3.sa', 'itsa4.sa','brsr6.sa','egie3.sa','alup11.sa', 'abcb4.sa']
@@ -210,11 +211,13 @@ def pegar_listadas():
 
 def pegar_maiores_empresas():
     actual_dir = pathlib.Path().absolute()
-    path = f'{actual_dir}\\data\\statusinvest-busca-avancada.csv'
-    path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
+
+    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
+    #path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
     dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
     dados = dados[dados['TICKER'].isin(pegar_listadas())]
     retorno = []
+
     #maior valor de mercado
     lista = dados.sort_values(by=[' VALOR DE MERCADO'], ascending=False)
     retorno.append(list(lista['TICKER'].head(6).to_dict().values()))
@@ -243,10 +246,9 @@ def isListed(dados):
 
 def get_cotacao_ticker(tickers):
     tickers = [x + '.SA' for x in tickers]
-    print(tickers)
+
     pares  = yf.download(tickers, period='1mo')['Adj Close']
     pares_ffill = pares.ffill()
-    print(pares_ffill.iloc[-1].to_dict())
     return pares_ffill.iloc[-1].to_dict()
 
 def gerar_listas_acoes_cotacoes():
@@ -264,3 +266,111 @@ def gerar_listas_acoes_cotacoes():
         dicis.append([[ticker, dic_arred.get(ticker) ]for ticker in categoria])
 
     return dicis
+
+def gerarRentabilidadeVariacao(tempo, tickers):
+    atual = dt.datetime.now()
+    ano = atual.year
+    mes = atual.month
+
+    if tempo == 'no Mês':
+        if(mes == 1):
+
+            last_bd = last_business_day(ano - 1 , 12)
+        else:
+            last_bd = last_business_day(ano, mes - 1)
+
+
+        inicio = f'{last_bd}'
+        data = yf.download(tickers, start=inicio)
+
+    elif tempo == 'no Dia':
+        dia = atual.day
+        if bool(len(pd.bdate_range(f'{ano}-{mes}-{dia}', f'{ano}-{mes}-{dia}'))):
+            #diaUtil = dt.datetime.strptime(f'{ano}-{mes}-{dia}', '%Y-%m-%d') - dt.timedelta(days=1)
+
+            inicio = get_previous_business_day()
+
+        else:
+            #TEM QUE TROCAR days=2 para days=1 por conta do feriado
+            diaUtil = dt.datetime.strptime(get_previous_business_day(), '%Y-%m-%d') - dt.timedelta(days=1)
+            inicio = f'{diaUtil.year}-{diaUtil.month}-{diaUtil.day}'
+
+
+        data = yf.download(tickers, start=inicio, interval='5m')
+        ultimaCotacaoDiaAnterior = data.groupby(data['Adj Close'].index.astype(str).str[:10]).last().iloc[-2]
+
+        lastday = str(data['Adj Close'].index.map(pd.Timestamp.date).unique()[-1])
+        data = data[data['Adj Close'].index.astype(str).str[:10] == lastday]
+        data.loc[data.index[0], :] = ultimaCotacaoDiaAnterior
+
+    elif tempo == 'no Ano':
+        inicio = f'{str(ano - 1)}-12-28'
+        data = yf.download(tickers, start=inicio)
+
+    else:
+        inicio = f'2021-12-31'
+        data = yf.download(tickers, start=inicio)
+
+    return data
+
+
+def rentabilidadeAcumulada(tempo):
+
+    cart = getCarteira()
+    tickers = list(map(lambda x: x + '.SA', list(cart.keys())))
+    tickers.append('^BVSP')
+
+    data = gerarRentabilidadeVariacao(tempo, tickers)
+
+    ibov = data['Adj Close']['^BVSP']
+    data.drop(('Adj Close', '^BVSP'), axis=1, inplace=True)
+
+    data.ffill(inplace=True)
+    data.bfill(inplace=True)
+
+    qtdeTik = pd.DataFrame.from_dict(cart, orient='index', columns=['qtde'])
+    qtdeTik.sort_index(inplace=True)
+
+    todayCot = pd.DataFrame(data['Adj Close'].iloc[-1])
+    todayCot.columns = ['cota']
+
+    qtdeTik['valor'] = qtdeTik['qtde'].values * todayCot['cota'].values
+
+    total = qtdeTik['valor'].sum()
+    qtdeTik['perc'] = round((qtdeTik['valor'] / total) * 100, 3)
+
+    cot_chg = data['Adj Close'].pct_change()
+    cot_chg.fillna(0, inplace=True)
+    weighted_returns = cot_chg * list(qtdeTik['perc'] / 100)
+    port_ret = weighted_returns.sum(axis=1)
+
+    cumulative_ret = ((port_ret + 1).cumprod() - 1) * 100
+
+    ibov.ffill(inplace=True)
+    ibov.bfill(inplace=True)
+
+    ibov_chg = ibov.pct_change()
+    ibov_chg.fillna(0, inplace=True)
+
+    ibov_cumReturns = (np.cumprod(ibov_chg + 1) - 1) * 100
+
+    final_data = pd.concat([ibov_cumReturns, cumulative_ret], axis=1, join='inner')
+    final_data.columns = ['ibov', 'portfolio']
+
+    return final_data
+
+
+def last_business_day(year, month):
+    last_day = calendar.monthrange(year, month)[1]
+    date = dt.date(year, month, last_day)
+    while date.weekday() > 4:
+        date -= dt.timedelta(days=1)
+    return date
+
+def get_previous_business_day():
+    today = dt.datetime.today()
+    one_day = dt.timedelta(days=1)
+    previous_day = today - one_day
+    while previous_day.weekday() >= 5:
+        previous_day -= one_day
+    return previous_day.strftime("%Y-%m-%d")
