@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
 
-<h1>asdasdasda</h1>
-<br><br><br>
-<p>asbcvbcvbcvb</p>
-<p>plpfpdfgpldfpgl</p>
+    <body>
 
-</body>
+        <h1>Atualizar quantidade de ações</h1>
+        <br><br><br>
+
+        <form action="/acoes/atualizar" method="post">
+            {% for acao in acoes %}
+            <p>
+                <label>{{acao[0]}}</label>
+                <input type="number" value="{{acao[1]}}" name="{{acao[0]}}">
+            </p>
+            {% endfor %}
+
+            <br>
+            <button type="submit">Atualizar</button>
+        </form>
+    </body>
 </html>

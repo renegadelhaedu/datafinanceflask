@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 
 
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/minhacarteira.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/minhaCarteira.css')}}">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Home</title>
 </head>
@@ -34,9 +34,9 @@
 					</li>
 				</a>
 
-				<a href="/carteira" class="nav-link">
+				<a href="#" class="nav-link" onclick="enviariframe('/acoes/paginas/excluir')">
 					<li class="nav-item">
-						<p>Análise</p>
+						<p>Excluir</p>
 					</li>
 				</a>
 
@@ -47,11 +47,10 @@
 				</a>
 
 			</ul>
-			<div class="profile">
+			<div>
 				<a href="/verificarlogin">
-					<img class="photo-profile" src="../static/Imagens/perfil.jpg" alt="perfil">
+					<p>Voltar</p>
 				</a>
-
 			</div>
 
 
