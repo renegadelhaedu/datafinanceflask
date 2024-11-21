@@ -29,6 +29,10 @@ def logout():
 
     return make_response(render_template('home.html'))
 
+@app.route("/mainpage")
+def mainpage ():
+    return render_template('mainpage.html', name=session['user'][0], profession=session['user'][1])
+
 @app.route('/homepageuser')
 def retornar():
     if 'user' in session:
@@ -50,11 +54,10 @@ def registrar_user():
         else:
             nome = request.form['nome']
             email = request.form['email']
-            estado = request.form['estado']
             profissao = request.form['profissao']
             senha = request.form['senha']
 
-        if dao.inserir_user(nome,email,estado,profissao,senha):
+        if dao.inserir_user(nome,email,profissao,senha):
             return render_template('home.html')
         else:
             return render_template('register.html', msg='erro ao inserir usuário')
@@ -73,16 +76,16 @@ def verificarlogin():
 
         if len(usuario) > 0:
             session['user'] = usuario[0]
-            return render_template('logado.html', name=usuario[0][0], profession=usuario[0][2])
+            return render_template('mainpage.html', name=session['user'][0], profession=session['user'][1])
         else:
-            return render_template('login.html',msg_erro='usuário ou senha incorreta')
+            return render_template('home.html',msg_erro='usuário ou senha incorreta')
 
     elif request.method == 'GET' and 'user' in session:
         usuario = session['user']
-        return render_template('logado.html', name=usuario[0][0], profession=usuario[2])
+        return render_template('mainpage.html', name=session['user'][0], profession=session['user'][1])
 
     else:
-        return render_template('login.html')
+        return render_template('home.html')
 
 
 
