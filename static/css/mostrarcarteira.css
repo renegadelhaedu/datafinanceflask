@@ -28,6 +28,31 @@
 
 }
 
+.divcarteira{
+    display: flex;
+    width: 95%;
+}
+
+.graficocarteira{
+    margin: 1px 0 0 1px;
+    width: 60%;
+}
+
+.tabelaacoes{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tabelaacoes table {
+    margin-left: 15px
+      border-collapse: collapse;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+}
+
 graf{
     margin: -2px -2px -2px 100px;
 }
