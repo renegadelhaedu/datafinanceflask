@@ -182,9 +182,10 @@ def gerarDataRetornos(ticker):
     return data[-1:]
 
 def gerar_top_acoes():
+
     actual_dir = pathlib.Path().absolute()
-    path = f'{actual_dir}\\data\\statusinvest-busca-avancada.csv'
-    path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
+
+    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
     dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
     dados = dados.fillna(0)
 
@@ -196,6 +197,7 @@ def gerar_top_acoes():
     dados.drop(dados[dados['PRECO'] <= 0].index, inplace=True)
 
     return dados
+
 
 def pegar_listadas():
 
