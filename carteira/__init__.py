@@ -1,6 +1,20 @@
 import pandas as pd
 import yfinance as yf
 import dao
+import pathlib
+
+
+def get_codigos_acoes():
+
+    actual_dir = pathlib.Path().absolute()
+    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
+    path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
+    dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
+    dados = dados.fillna(0)
+    dados.drop(dados[dados['PRECO'] <= 0].index, inplace=True)
+
+    return dados['TICKER'].values.tolist()
+
 
 def gerarPercentuais(email):
     cart = dao.get_carteira(email)
