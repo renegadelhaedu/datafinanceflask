@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask import Blueprint, current_app, render_template, session, request, redirect, url_for
 import yfinance as yf
 import grafico as gr
-import carteira as gf
+import carteira as cart
+import dataAnalise
 import dao
 
 minhacarteira_bp = Blueprint('acoes', __name__)
@@ -18,10 +19,13 @@ def exibir_detalhes_acao(nome):
 @minhacarteira_bp.route('/adicionar', methods=['POST'])
 def inserir_acao():
     if 'user' in session:
-        codigo = request.form.get('codigo') #falta verificar se o codigo da açao é valido
+        codigo = request.form.get('codigo').upper()
         qtde = request.form.get('qtde')
-        pmedio = request.form.get('precomedio') #falta fazer tratamento ------------
+        pmedio = request.form.get('precomedio') #falta fazer tratamento no front ------------
         email = session['user'][3]
+
+        if codigo not in current_app.config['TICKERS']:
+            return '<h2>Código de ação inválido</h2>' #criar pagina de erro ao inserir------------
 
         if dao.inserir_acao(email, codigo, qtde, pmedio):
             return redirect(url_for('acoes.gerarminhacarteira'))
@@ -46,8 +50,19 @@ def atualizar_acao():
             else:
                 return redirect(url_for('acoes.gerarminhacarteira')) #falta fazer msg de erro ao atualizar
         else:
-            return redirect(url_for('acoes.gerarminhacarteira'))
+            return redirect(url_for('acoes.gerarminhacarteira')) #carteira nao modificada
+    else:
+        return redirect(url_for('acoes.gerarminhacarteira'))
 
+@minhacarteira_bp.route('/excluir/<codigo>', methods=['GET'])
+def excluir_acao(codigo):
+    if 'user' in session:
+        if dao.excluir_acao(session['user'][3], codigo):
+            return redirect(url_for('acoes.gerarminhacarteira'))
+        else:
+            return redirect(url_for('acoes.gerarminhacarteira'))  # falta fazer msg de erro ao atualizar
+    else:
+        return render_template('home.html')
 
 @minhacarteira_bp.route('/paginas/<string:metodo>')
 def pagina_acoes_add(metodo):
@@ -56,20 +71,40 @@ def pagina_acoes_add(metodo):
         return render_template('adicionaracao.html')
 
     elif metodo == 'atualizar' and 'user' in session:
-        carteira = dao.get_carteira(session['user'][3])
-        session['carteira'] = carteira
-        lista = [(chave, carteira.get(chave)) for chave in carteira.keys()]
+        if 'carteira' not in session:
+            carteira = dao.get_carteira(session['user'][3])
+            session['carteira'] = carteira
+
+        lista = [(chave, session['carteira'].get(chave)) for chave in session['carteira'].keys()]
         return render_template('atualizaracao.html', acoes=lista)
 
     elif metodo == 'excluir' and 'user' in session:
-        return render_template('adicionaracao.html') #---------falta fazer
+        if 'carteira' not in session:
+            carteira = dao.get_carteira(session['user'][3])
+            session['carteira'] = carteira
+
+        return render_template('excluiracao.html', acoes=session['carteira']) #---------falta fazer
     else:
         return render_template('minhacarteira.html')
+
+
+@minhacarteira_bp.route("/dividendospagos")
+def gerarrankingdividendos():
+    if 'carteira' not in session:
+        carteira = dao.get_carteira(session['user'][3])
+        session['carteira'] = carteira
+
+    dividen_df = dataAnalise.gerarrankingdividendos(session['carteira'].keys())
+
+    fig = gr.gerarBarGrafDividendos(dividen_df)
+    return render_template('rankingdividendos.html', plot=fig)
+
 
 @minhacarteira_bp.route("/gerarminhacarteira")
 def gerarminhacarteira():
     if 'user' in session:
-        data, grid, dict_acoes = gf.gerarPercentuais(session['user'][3])
+        data, grid, dict_acoes = cart.gerarPercentuais(session['user'][3])
+        session['carteira'] = dict_acoes
         if data is None:
             return render_template('adicionaracao.html')
 
