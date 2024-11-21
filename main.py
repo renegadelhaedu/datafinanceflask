@@ -41,7 +41,7 @@ def retornar():
         return redirect(url_for('verificarlogin'))
 
 
-@app.route('/register', methods=['POST','GET'])
+@app.route('/registernewuser', methods=['POST','GET'])
 def registrar_user():
 
         if request.method == 'GET':
@@ -57,7 +57,8 @@ def registrar_user():
         if dao.inserir_user(nome,email,estado,profissao,senha):
             return render_template('home.html')
         else:
-            return render_template('cadastro.html', msg='erro ao inserir usuário')
+            return render_template('register.html', msg='erro ao inserir usuário')
+
 
 
 @app.route('/verificarlogin', methods=['POST','GET'])
@@ -83,6 +84,15 @@ def verificarlogin():
     else:
         return render_template('login.html')
 
+
+
+@app.route('/teste')
+def teste():
+    return render_template('hometeste.html')
+
+@app.route('/register')
+def register_page():
+    return render_template('register.html')
 
 @app.route('/carteira')
 def carteira():
