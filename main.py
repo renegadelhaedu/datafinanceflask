@@ -6,15 +6,19 @@ import carteira as cart
 import atualizar
 import dao 
 
+
 app = Flask(__name__)
 app.secret_key = '6#aASD675@'
 app.config['TICKERS'] = cart.get_codigos_acoes()
 
 from minhacarteira import  minhacarteira_bp
 from riskfinancetools import riscoretorno_bp
+from logado import logado_bp
+
 
 app.register_blueprint(minhacarteira_bp, url_prefix="/acoes")
 app.register_blueprint(riscoretorno_bp, url_prefix="/riscoretorno")
+app.register_blueprint(logado_bp, url_prefix="/logado")
 
 @app.route('/')
 def home():
@@ -66,7 +70,6 @@ def registrar_user():
             return render_template('register.html', msg='erro ao inserir usuário')
 
 
-
 @app.route('/verificarlogin', methods=['POST','GET'])
 def verificarlogin():
 
@@ -110,6 +113,7 @@ def carteira():
 @app.route('/calcularRiscoRetorno/<opcao>', methods=['GET','POST'])
 def calcularRiscoRetorno(opcao):
     df_final = da.readRiscoRetornoFile(opcao)
+    print(df_final.columns)
     return render_template('calcRiscoRet.html', plot=gr.gerarGrafRiscRet(df_final))
 
 
