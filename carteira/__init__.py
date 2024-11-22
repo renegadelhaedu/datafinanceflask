@@ -4,6 +4,7 @@ import dao
 import pathlib
 
 
+
 def get_codigos_acoes():
 
     actual_dir = pathlib.Path().absolute()
