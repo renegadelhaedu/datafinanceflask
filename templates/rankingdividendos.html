@@ -8,20 +8,14 @@
 </head>
 <body>
     <H1>Ranking Dividendos</H1>
-    <h2>O gráfico abaixo traz o ranking de dividendos das ações listadas na bolsa brasileira há
-        pelo menos 10 anos.
+    <h2>O gráfico abaixo traz o ranking de suas Ações baseado no dividend yield nos últimos 5 anos.
     </h2>
-    <div style="display: flex">
-        <form action="/rankingdividendos/minhas" method="get">
-            <button type="submit" >Minhas Ações</button>
-        </form>
-        <form action="/rankingdividendos/all" method="get">
-            <button type="submit" >Todas as Ações</button>
-        </form>
 
+    <div style="width: 95%">
+        {{ plot|safe }}
     </div>
 
-    {{ plot|safe }}
+
 
 </body>
 </html>
