@@ -69,6 +69,6 @@ def filtering(pathCsv, year=None, startDate=None, endDate=None):
         'CAGR RECEITAS 5 ANOS', 'CAGR LUCROS 5 ANOS', ' LIQUIDEZ MEDIA DIARIA',
         ' VPA', ' LPA', ' PEG Ratio', ' VALOR DE MERCADO'], inplace=True)
     
-    dados.to_csv('CSV/acoes_filtradas.csv', index=False)
+    dados.to_csv('data/acoes_filtradas.csv', index=False)
     
     return dados

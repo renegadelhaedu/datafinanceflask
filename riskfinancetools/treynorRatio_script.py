@@ -1,4 +1,3 @@
-from .betaIndicator_script import betaIndicator
 import numpy as np
 
 def treynorRatioIndicator(dataStock, beta, riskfreeRate):

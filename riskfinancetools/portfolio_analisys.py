@@ -17,7 +17,7 @@ def walletAnalisys(wallet, market, year=None, startDate=None, endDate=None, expo
     else:
         start = startDate
         end = endDate
-        currentYear = start[:4]
+        currentYear = end[:4]
 
     riskFreeRate = quotation(currentYear)
     print(riskFreeRate)
@@ -25,6 +25,10 @@ def walletAnalisys(wallet, market, year=None, startDate=None, endDate=None, expo
     print("BAIXANDO DADOS MERCADO")
     dataMarket = yf.download(market, start=start, end=end)
 
+    if isinstance(dataMarket.columns, pd.MultiIndex):
+        dataMarket = dataMarket.loc[:, (slice(None), market)]
+        dataMarket.columns = dataMarket.columns.droplevel(1)
+    
     for stock in wallet:
         print(f"BAIXANDO DADOS AÇÃO {stock}")
 
@@ -33,6 +37,10 @@ def walletAnalisys(wallet, market, year=None, startDate=None, endDate=None, expo
         
         dataStock = yf.download(stock, start=start, end=end)
 
+        if isinstance(dataStock.columns, pd.MultiIndex):
+            dataStock = dataStock.loc[:, (slice(None), stock)]
+            dataStock.columns = dataStock.columns.droplevel(1)
+        
         try:
         
             std = standardDerivation(dataStock)
@@ -53,27 +61,6 @@ def walletAnalisys(wallet, market, year=None, startDate=None, endDate=None, expo
     data = pd.DataFrame(data)
 
     if exportCsv:
-        data.to_csv('CSV/stocksData.csv', index=False)
+        data.to_csv('data/stocksData.csv', index=False)
 
     return data
-
-if __name__ == '__main__':
-    wallet = ['VALE3.SA', 'PETR4.SA', 'ITUB4.SA', 'BBDC4.SA', 'ABEV3.SA', 'MGLU3.SA', 
-           'WEGE3.SA', 'JBSS3.SA', 'SUZB3.SA', 'TAEE11.SA', 'PRIO3.SA']
-    market = '^BVSP'
-    startDate = '2022-01-01'
-    endDate = '2024-09-01'
-
-    wallet = walletAnalisys(wallet, market, startDate, endDate)
-
-    print(wallet)
-    # VALE3 - Vale S.A. (Mineração)
-    # PETR4 - Petrobras (Petróleo e Gás)
-    # ITUB4 - Itaú Unibanco (Bancos)
-    # BBDC4 - Bradesco (Bancos)
-    # ABEV3 - Ambev (Bebidas)
-    # MGLU3 - Magazine Luiza (Varejo)
-    # WEGE3 - WEG (Máquinas e Equipamentos)
-    # JBSS3 - JBS (Alimentos)
-    # SUZB3 - Suzano (Papel e Celulose)
-    # TAEE11 - Taesa (Energia Elétrica)

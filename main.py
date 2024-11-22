@@ -11,8 +11,10 @@ app.secret_key = '6#aASD675@'
 app.config['TICKERS'] = cart.get_codigos_acoes()
 
 from minhacarteira import  minhacarteira_bp
-app.register_blueprint(minhacarteira_bp, url_prefix="/acoes")
+from riskfinancetools import riscoretorno_bp
 
+app.register_blueprint(minhacarteira_bp, url_prefix="/acoes")
+app.register_blueprint(riscoretorno_bp, url_prefix="/riscoretorno")
 
 @app.route('/')
 def home():
