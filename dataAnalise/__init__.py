@@ -255,10 +255,12 @@ def get_cotacao_ticker(tickers):
     pares_ffill = pares.ffill()
     return pares_ffill.iloc[-1].to_dict()
 
+
 def gerar_listas_acoes_cotacoes():
     dicis = []
     conj = set()
     categorias = pegar_maiores_empresas()
+
     for lista in categorias:
         for i in lista:
             conj.add(i)
@@ -270,6 +272,7 @@ def gerar_listas_acoes_cotacoes():
         dicis.append([[ticker, dic_arred.get(ticker) ]for ticker in categoria])
 
     return dicis
+
 
 def gerarRentabilidadeVariacao(tempo, tickers):
     atual = dt.datetime.now()

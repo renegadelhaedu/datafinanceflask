@@ -150,10 +150,8 @@ def gerariframeprincipal():
 
 @app.route('/gerariframecard')
 def gerariframecard():
-    pares = da.gerar_listas_acoes_cotacoes()
-
+    pares = da.pegar_maiores_empresas()
     return render_template('cardActions.html', pares=pares)
-
 
 
 @app.route('/rankingdividendos/<opcao>', methods=['GET','POST'])

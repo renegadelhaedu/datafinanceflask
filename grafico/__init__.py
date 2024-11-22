@@ -6,9 +6,7 @@ import pandas as pd
 import dataAnalise as da
 
 def dados_acao(nome):
-    dados = yf.Ticker(nome + '.sa').history(start='2020-01-01')
-    print(dados.columns)
-
+    dados = yf.Ticker(nome + '.sa').history(period='5y')
     fig = px.line(dados, x=dados.index, y='Close')
     valor_acao = dados['Close'].iloc[-1]
     
