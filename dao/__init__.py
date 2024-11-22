@@ -74,6 +74,27 @@ def inserir_acao(email, codigo, qtde, preco_medio):
     conn.close()
     return exito
 
+def excluir_acao(email, codigo):
+    conn = conectardb()
+    cur = conn.cursor()
+
+    try:
+        sql = f"DELETE FROM acao WHERE email_usuario = '{email}' and simbolo = '{codigo}';"
+
+        cur.execute(sql)
+        conn.commit()
+    except psycopg2.Error as e:
+        conn.rollback()
+        exito = False
+        print(e)
+    else:
+        exito = True
+
+    cur.close()
+    conn.close()
+    return exito
+
+
 def atualizar_acoes(email, acoes_modificadas):
     conn = conectardb()
     cur = conn.cursor()

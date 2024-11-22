@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gráfico de Clustering</title>
+</head>
+<body>
+    <h1>Análise de Risco e Retorno por agrupamento de ações</h1>
+    {% if graphic_html %}
+        {{ graphic_html | safe }}
+    {% else %}
+        <p>Nenhum dado disponível para análise.</p>
+    {% endif %}
+</body>
+</html>

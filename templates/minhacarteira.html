@@ -16,7 +16,7 @@
 		<nav>
 			<ul class="nav-list">
 
-				<a href="#" class="nav-logo" onclick="enviariframe('/gerarminhacarteira')">
+				<a href="#" class="nav-logo" onclick="enviariframe('/acoes/gerarminhacarteira')">
 					<li class="nav-item">
 						<p>Carteira</p>
 					</li>
@@ -40,7 +40,7 @@
 					</li>
 				</a>
 
-				<a href="/rankingdividendos/all" class="nav-link">
+				<a href="#" class="nav-link" onclick="enviariframe('/acoes/dividendospagos')">
 					<li class="nav-item">
 						<p>Dividendos</p>
 					</li>
@@ -60,7 +60,7 @@
 
 	<!--==================== MAIN ====================-->
 	<div class="main">
-		<iframe id="meuiframe" name="card" src="{{url_for('gerarminhacarteira')}}" frameborder="0"></iframe>
+		<iframe id="meuiframe" name="card" src="{{url_for('acoes.gerarminhacarteira')}}" frameborder="0"></iframe>
 	</div>
 
 
