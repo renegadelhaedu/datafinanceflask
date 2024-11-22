@@ -4,6 +4,8 @@ import yfinance as yf
 from dao import *
 import pathlib
 import datetime as dt
+import dao
+import calendar
 
 def pegarcotacoes():
     nomesAcoes = ['bbas3.sa', 'itsa4.sa','brsr6.sa','egie3.sa','alup11.sa', 'abcb4.sa']
@@ -37,7 +39,7 @@ def gerarrankingdividendos(dados):
 def dyanalise(name):
     empresa = name + '.SA'
     comp = yf.Ticker(empresa)
-    hist2 = comp.history(period='15y')
+    hist2 = comp.history(period='5y')
     if (len(hist2) == 0):
         return 0
     somaDiv = hist2['Dividends'].resample('Y').sum()
@@ -180,9 +182,10 @@ def gerarDataRetornos(ticker):
     return data[-1:]
 
 def gerar_top_acoes():
+
     actual_dir = pathlib.Path().absolute()
-    path = f'{actual_dir}\\data\\statusinvest-busca-avancada.csv'
-    path = path.split('datafinanceflask')[0] + 'datafinanceflask\\data\\statusinvest-busca-avancada.csv'
+
+    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
     dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
     dados = dados.fillna(0)
 
@@ -194,6 +197,7 @@ def gerar_top_acoes():
     dados.drop(dados[dados['PRECO'] <= 0].index, inplace=True)
 
     return dados
+
 
 def pegar_listadas():
 
@@ -316,7 +320,7 @@ def gerarRentabilidadeVariacao(tempo, tickers):
 
 def rentabilidadeAcumulada(tempo):
 
-    cart = getCarteira()
+    cart = dao.getCarteira()
     tickers = list(map(lambda x: x + '.SA', list(cart.keys())))
     tickers.append('^BVSP')
 

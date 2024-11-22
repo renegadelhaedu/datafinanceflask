@@ -2,20 +2,19 @@ import pathlib
 from flask import *
 import dataAnalise as da
 import grafico as gr
+import carteira as cart
 import atualizar
 import dao 
 
-
-
 app = Flask(__name__)
 app.secret_key = '6#aASD675@'
+app.config['TICKERS'] = cart.get_codigos_acoes()
 
 from minhacarteira import  minhacarteira_bp
 from riskfinancetools import riscoretorno_bp
 
 app.register_blueprint(minhacarteira_bp, url_prefix="/acoes")
 app.register_blueprint(riscoretorno_bp, url_prefix="/riscoretorno")
-
 
 @app.route('/')
 def home():
@@ -32,6 +31,7 @@ def gerarmoduloanalise():
 @app.route('/logout')
 def logout():
     session.pop('user', None)
+    session.pop('carteira', None)
 
     return make_response(render_template('home.html'))
 
