@@ -12,6 +12,10 @@ def dados_acao(nome):
     
     return fig.to_html(), valor_acao
 
+def gerarGraficoRentabilidadeAcumulada(dados):
+    fig = px.line(dados)
+    return fig.to_html()
+
 def gerarBarGrafDividendos(data):
 
     fig = px.bar(data, x='ticker', y='mediana', hover_data=['valorDividendo', 'media'])
@@ -53,8 +57,8 @@ def gerarGrafRiscRet(df_final):
                               mode='markers',
                               text=df_final.index))
     fig.update_layout(
-        xaxis_title= df_final.columns[0],
-        yaxis_title= df_final.columns[1]
+        xaxis_title= 'Retorno anual médio',
+        yaxis_title= 'Percentual de janelas positivas'
 
     )
     return fig.to_html()
