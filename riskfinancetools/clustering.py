@@ -3,8 +3,67 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+import os
 
-def clusteringKmeans(data=None, csvData=None, displayPlot=False):
+def clusteringKmeans(data=None, csvData=None):
+    if data is None:
+        data = pd.read_csv(csvData).fillna(0)
+
+    xdata = data.drop(columns=['TICKER'])
+
+    scaler = StandardScaler()
+    formatedData = scaler.fit_transform(xdata)
+
+    kmeans = KMeans(n_clusters=3, max_iter=500, random_state=42)
+    groups = kmeans.fit_predict(formatedData)
+
+
+    tickets = data['TICKER'].values
+    empresas = {0: [], 1: [], 2: []}
+    for i in range(groups.size):
+        empresas[groups[i]].append(str(tickets[i]))
+
+    dataGroups = pd.DataFrame.from_dict(empresas, orient='index')
+    dataGroups.to_csv('data/clusters.csv', index=False)
+
+    pca = PCA(n_components=2)
+    X_pca = pca.fit_transform(formatedData)
+
+    fig = px.scatter(
+        x=X_pca[:, 0], 
+        y=X_pca[:, 1], 
+        color=groups.astype(str),
+        title="Visualização dos Clusters com PCA",
+        labels={"x": "Componente Principal 1", "y": "Componente Principal 2"},
+        opacity=0.7
+    )
+
+    for i, ticker in enumerate(data['TICKER']):
+        fig.add_trace(
+            go.Scatter(
+                x=[X_pca[i, 0]],
+                y=[X_pca[i, 1]],
+                mode="text",
+                text=ticker,
+                textposition="top center",
+                textfont=dict(size=10),
+                showlegend=False
+            )
+        )
+
+    fig.update_layout(
+        xaxis_title="Componente Principal 1",
+        yaxis_title="Componente Principal 2",
+        xaxis=dict(showgrid=True),
+        yaxis=dict(showgrid=True),
+        coloraxis_colorbar=dict(title="Cluster"),
+    )
+
+    return dataGroups, fig.to_html(full_html=False)
+
+def clusteringKmeans2(data=None, csvData=None, displayPlot=False):
     # Carrega o DataFrame e remove a coluna 'TICKER' para o clustering
     if data is None:
         data = pd.read_csv(csvData)
@@ -26,7 +85,7 @@ def clusteringKmeans(data=None, csvData=None, displayPlot=False):
         empresas[groups[i]].append(str(tickets[i]))
 
     dataGroups = pd.DataFrame.from_dict(empresas, orient='index')
-    dataGroups.to_csv('CSV/clusters.csv', index=False)
+    dataGroups.to_csv('data/clusters.csv', index=False)
 
     if displayPlot:
         pca = PCA(n_components=2)
