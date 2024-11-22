@@ -11,10 +11,10 @@ app = Flask(__name__)
 app.secret_key = '6#aASD675@'
 
 from minhacarteira import  minhacarteira_bp
-
+from riskfinancetools import riscoretorno_bp
 
 app.register_blueprint(minhacarteira_bp, url_prefix="/acoes")
-
+app.register_blueprint(riscoretorno_bp, url_prefix="/riscoretorno")
 
 
 @app.route('/')
