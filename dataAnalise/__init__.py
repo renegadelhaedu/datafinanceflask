@@ -124,22 +124,20 @@ def gerarCorrelaAll(opcao):
 
 
 
-def calcularRiscoRetJanelasTemp(opcao):
+def calcularRiscoRetJanelasTemp(tickers):
 
-    if opcao == 'all':
-        tickers = getEmpresasListadasAntigas()
-    else:
-        tickers = getMinhasEmpresasListadas()
+    comps = [x + '.SA' for x in tickers]
 
-    comps = [x + '.sa' for x in tickers]
-
-    dataProbGanho = pd.DataFrame()
-    dataPerctRetorno = pd.DataFrame()
+    dataProbGanho = pd.DataFrame(columns=['ticker', 'ProbGanho'])
+    dataPerctRetorno = pd.DataFrame(columns=['ticker', 'PercRetorno'])
 
     for comp in comps:
         saida = gerarDataRetornos(comp)
-        dataProbGanho = pd.concat([dataProbGanho, pd.DataFrame([[comp, saida['percGanhos'].values[0]]])])
-        dataPerctRetorno = pd.concat([dataPerctRetorno, pd.DataFrame([[comp, saida['Rentb'].values[0]]])])
+        novo_dado_prob = pd.DataFrame([[comp, saida[0]]], columns=['ticker', 'ProbGanho'])
+        dataProbGanho = pd.concat([dataProbGanho, novo_dado_prob], ignore_index=True)
+
+        novo_dado_ret = pd.DataFrame([[comp, saida[1]]], columns=['ticker', 'PercRetorno'])
+        dataPerctRetorno = pd.concat([dataPerctRetorno, novo_dado_ret], ignore_index=True)
 
     dataProbGanho.columns = ['ticker', 'ProbGanho']
     dataPerctRetorno.columns = ['ticker', 'PercRetorno']
@@ -150,36 +148,25 @@ def calcularRiscoRetJanelasTemp(opcao):
     return df_final
 
 
-def calcRetorno(week, janela):
-
-    retW = (week / week.shift(janela) - 1) * 100
-
-    retW.dropna(inplace=True)
-    totalJanelas = len(retW)
-
-    qtdeJanPosit = len(retW[retW['Adj Close'] > 0])
-    return [abs((qtdeJanPosit / totalJanelas) * 100 - 100), retW['Adj Close'].mean()]
-
-
 def gerarDataRetornos(ticker):
-    probGanhos = list()
-    rentMedia = list()
 
-    intervalo = 4
-    maxSemanas = 192
+    hist = yf.download(ticker, period='10y', interval='1d')
+    hist = hist[['Adj Close']].dropna()
 
-    hist = yf.download(ticker, period='15y')
-    week = hist.resample('W').mean()
+    hist['Retorno'] = (hist['Adj Close'] / hist['Adj Close'].shift(252) - 1) * 100
+    hist.dropna(inplace=True)
 
-    for i in range(48, maxSemanas, intervalo):
-        saida = calcRetorno(week, i)
-        probGanhos.append(saida[0])
-        rentMedia.append(saida[1])
+    hist['Positiva'] = hist['Retorno'] > 0
+    total_janelas = len(hist)
+    janelas_positivas = hist['Positiva'].sum()
 
-    data = pd.DataFrame(list(zip(list([*range(4, maxSemanas, intervalo)]), probGanhos, rentMedia)),
-                        columns=['interv', 'percGanhos', 'Rentb'])
-    data = data.set_index('interv')
-    return data[-1:]
+    if total_janelas > 0:
+        percentual_positivo = (janelas_positivas / total_janelas) * 100
+    else:
+        percentual_positivo = 0
+
+    return percentual_positivo, hist['Retorno'].mean()
+
 
 def gerar_top_acoes():
 
@@ -321,10 +308,10 @@ def gerarRentabilidadeVariacao(tempo, tickers):
     return data
 
 
-def rentabilidadeAcumulada(tempo):
+def rentabilidadeAcumulada(tempo, login, carteira):
+   # ['no Dia', 'no Mês', 'no Ano', 'Desde início do ano passado']
 
-    cart = dao.getCarteira()
-    tickers = list(map(lambda x: x + '.SA', list(cart.keys())))
+    tickers = list(map(lambda x: x + '.SA', list(carteira.keys())))
     tickers.append('^BVSP')
 
     data = gerarRentabilidadeVariacao(tempo, tickers)
@@ -335,7 +322,7 @@ def rentabilidadeAcumulada(tempo):
     data.ffill(inplace=True)
     data.bfill(inplace=True)
 
-    qtdeTik = pd.DataFrame.from_dict(cart, orient='index', columns=['qtde'])
+    qtdeTik = pd.DataFrame.from_dict(carteira, orient='index', columns=['qtde'])
     qtdeTik.sort_index(inplace=True)
 
     todayCot = pd.DataFrame(data['Adj Close'].iloc[-1])
