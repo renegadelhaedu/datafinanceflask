@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores Risco e Retorno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .indicator-row {
+            margin-bottom: 15px;
+        }
+        .indicator-row span {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Indicadores Risco e Retorno da Carteira</h1>
+    <div>
+        {% for stock in indicators %}
+            <div class="indicator-row">
+                <span>{{ stock.TICKER }}</span>
+                <span>STD: {{ (stock.STD * 100)|round(2) }}%</span>
+                <span>BETA: {{ stock.BETA|round(2) }}</span>
+                <span>SHARPE RATIO: {{ stock['SHARPE RATIO']|round(2) }}</span>
+                <span>TREYNOR RATIO: {{ stock['TREYNOR RATIO']|round(2) }}</span>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
