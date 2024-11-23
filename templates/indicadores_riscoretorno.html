@@ -24,10 +24,10 @@
         {% for stock in indicators %}
             <div class="indicator-row">
                 <span>{{ stock.TICKER }}</span>
-                <span>STD: {{ stock.STD }}</span>
-                <span>BETA: {{ stock.BETA }}</span>
-                <span>SHARPE RATIO: {{ stock['SHARPE RATIO'] }}</span>
-                <span>TREYNOR RATIO: {{ stock['TREYNOR RATIO'] }}</span>
+                <span>STD: {{ (stock.STD * 100)|round(2) }}%</span>
+                <span>BETA: {{ stock.BETA|round(2) }}</span>
+                <span>SHARPE RATIO: {{ stock['SHARPE RATIO']|round(2) }}</span>
+                <span>TREYNOR RATIO: {{ stock['TREYNOR RATIO']|round(2) }}</span>
             </div>
         {% endfor %}
     </div>
