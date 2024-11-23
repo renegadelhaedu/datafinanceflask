@@ -8,8 +8,8 @@
     <title>Home</title>
 </head>
 <body >
-    
-    
+
+
   <div class="containerCards">
     <div class="cardActions">
 
@@ -26,19 +26,18 @@
                 </tr>
             </thead>
                 <tbody>
-                {% for nome, cotacao in pares[0] %}
+                {% for nome in pares[0] %}
                 <tr class="info-action">
                   <td class="action"><a href="/acoes/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
-                  <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
                 </tr>
                 {% endfor %}
-               
+
               </tbody>
           </table>
 
-          
+
           <!--########## - Acoes Populares - ##########-->
-          
+
             <table>
               <thead>
                   <tr class="transp">
@@ -49,18 +48,17 @@
                       </th>
                     </thead>
                   <tbody>
-                     {% for nome, cotacao in pares[1] %}
+                     {% for nome in pares[1] %}
                     <tr class="info-action">
                       <td class="action"><a href="/acoes/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
-                      <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
 
-          
 
-          
+
+
         </div>
 
         <div>
@@ -69,15 +67,14 @@
                 <tr class="transp">
                     <th colspan="2">
                       <div class="title">
-                        <h3>Menor relação preço/lucro</h2>
+                        <h3>Menor relação preço/lucro</h3>
                       </div>
                     </th>
                   </thead>
                 <tbody>
-                  {% for nome, cotacao in pares[2] %}
+                  {% for nome in pares[2] %}
                     <tr class="info-action">
                       <td class="action"><a href="/acoes/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
-                      <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
                     </tr>
                     {% endfor %}
               </tbody>
@@ -88,15 +85,14 @@
                 <tr class="transp">
                     <th colspan="2">
                       <div class="title">
-                        <h3>Maior retorno de capital</h2>
+                        <h3>Maior retorno de capital</h3>
                       </div>
                     </th>
                   </thead>
                 <tbody>
-                  {% for nome, cotacao in pares[3] %}
+                  {% for nome in pares[3] %}
                     <tr class="info-action">
                       <td class="action"><a href="/acoes/exibirdetalhesacao/{{nome}}">{{nome}}</a></td>
-                      <td class="value-action" style="color: rgb(64, 0, 255);">R$ {{cotacao}}</td>
                     </tr>
                     {% endfor %}
               </tbody>

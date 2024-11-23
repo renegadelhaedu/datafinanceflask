@@ -28,6 +28,11 @@ def home():
 def login():
     return render_template('login.html')
 
+@app.route("/mainpage")
+def mainpage ():
+    return render_template('mainpage.html', name=session['user'][0], profession=session['user'][1])
+
+
 @app.route('/gerarmoduloanalise')
 def gerarmoduloanalise():
     return render_template('logado.html')
