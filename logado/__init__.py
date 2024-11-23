@@ -46,3 +46,14 @@ def gerar_graf2d_risco_retorno(login):
     figura = grafico.gerarGrafRiscRet(data)
 
     return render_template('grafico2driscoretorno.html', plot=figura)
+
+
+@logado_bp.route('/correlacaoindicadoresmacro', methods=['GET'])
+def correlacaoallindicadores():
+    if 'carteira' not in session:
+        print(carteira_session)
+        session['carteira'] = carteira_session['carteira']
+
+    dataCorr = dataAnalise.gerarCorrelacoesCarteiraXindMacro(session['carteira'].keys())
+
+    return render_template('correlationindicadores.html', plot=grafico.gerarGrafCorrIndicAll3D(dataCorr))
