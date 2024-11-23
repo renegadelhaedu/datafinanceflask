@@ -10,7 +10,8 @@ carteira_session = {}
 
 def pegar_carteira_thread(login):
     carteira_session['carteira'] = dao.get_carteira(login)
-
+    session['carteira'] = carteira_session['carteira']
+    
 logado_bp = Blueprint('logado', __name__)
 
 @logado_bp.route('/<pagina>')
@@ -33,7 +34,6 @@ def calcular_rentabilidade_carteira(login):
     figura = grafico.gerarGraficoRentabilidadeAcumulada(dados)
 
     return render_template('rentabilidadeacumulada.html', plot=figura)
-
 
 @logado_bp.route('/riscoretorno/<login>')
 def gerar_graf2d_risco_retorno(login):
