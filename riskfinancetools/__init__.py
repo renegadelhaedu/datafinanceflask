@@ -18,20 +18,16 @@ def show_clustering():
     
 @riscoretorno_bp.route('/indicadoresriscoretorno', methods=['GET'])
 def calculate_inidicators_with_user_wallet():
-
-
     if 'user' in session:
-        print(session['carteira'])
-        return redirect(url_for('clustering'))
-        # wallet = session['carteira']
-        # start = "2022-01-01"
-        # end = "2024-11-19"
+        wallet = list(session['carteira'].keys())
+        start = "2022-01-01"
+        end = "2024-11-19"
 
-        # indicatorsDataframe = walletAnalisys(wallet=wallet, market='^BVSP', startDate=start, endDate=end)
-        # indicators = indicatorsDataframe.to_dict(orient='records')
-        # print(indicatorsDataframe)
+        indicatorsDataframe = walletAnalisys(wallet=wallet, market='^BVSP', startDate=start, endDate=end)
+        indicators = indicatorsDataframe.to_dict(orient='records')
+        print(indicatorsDataframe)
 
-        # return render_template('indicadores_riscoretorno.html', indicators=indicators)
+        return render_template('indicadores_riscoretorno.html', indicators=indicators)
 
 
 @riscoretorno_bp.route('/updateCsv', methods=['GET'])
