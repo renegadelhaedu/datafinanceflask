@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/mainpage.css') }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+	<header>
+		<nav>
+			<ul class="nav-list">
+				<a href="/homepageuser" class="nav-logo"></a>
+					<li class="nav-item">
+						<p>Home</p>
+					</li>
+				</a>
+
+				<a href="/rankingacoes/all" class="nav-link" target="_blank"></a>
+					<li class="nav-item">
+						<p>Risco/Retorno</p>
+					</li>
+				</a>
+
+				<a href="#" class="nav-link" onclick="op1()"></a>
+					<li class="nav-item">
+						<p>Correlação</p>
+					</li>
+				</a>
+
+				<a href="#" class="nav-link" onclick="op1()"></a>
+					<li class="nav-item">
+						<p>Rentabilidade</p>
+					</li>
+				</a>
+			</ul>
+		</nav>
+		<div class="profile">
+			<img id="photo-profile" src="../static/Imagens/perfil.jpg" alt="perfil">
+		</div>
+	</header>
+	
+	<div id="submenu" class="submenu hidden">
+		<div class="profile">
+			<img id="photo-profile-submenu" src="../static/Imagens/perfil.jpg" alt="perfil">
+		</div>
+
+		<div class="card-profile">
+			<h3>{{name}}</h3>
+			<p>{{profession}}</p>
+			<div class="profile-buttons">
+				<a href="/logout">
+					<button id="logout-button">
+						logout
+					</button>
+				</a>
+				<a href="/carteira">
+					<button id="wallet-button">
+						carteira
+					</button>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!--==================== MAIN ====================-->
+	<main class="container-datas">
+		<br><br>
+		<iframe id="iframe-card" name="card" src="/logado/principal"></iframe>
+	</main>
+
+	<footer>
+		<section class="footer">
+			<ul>
+				<li>
+					<a href="#"><p>Home</p></a>
+				</li>
+				<li>
+					<a href="#"><p>Services</p></a>
+				</li>
+				<li>
+					<a href="#"><p>About</p></a>
+				</li>
+				<li>
+					<a href="#"><p>Terms</p></a>
+				</li>
+				<li>
+					<a href="#"><p>Privacy Policy</p></a>
+				</li>
+			</ul>
+			<p class="copyright">
+				BCC @ 2024
+			</p>
+		</section>
+	</footer>
+	<script src="../static/js/mainpage.js"></script>
+
+
+</body>
+
+</html>
