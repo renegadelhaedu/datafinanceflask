@@ -18,9 +18,9 @@ def pagina_iframe_logado(pagina):
 
     if 'user' in session and pagina == 'principal':
         if 'carteira' not in session:
-            Thread(target=pegar_carteira_thread, args=(session['user'][3],)).start()
+            Thread(target=pegar_carteira_thread, args=(session['user'][2],)).start()
 
-        return render_template('iframelogado.html', login=session['user'][3])
+        return render_template('iframelogado.html', login=session['user'][2])
 
 
 @logado_bp.route('/rentabilidadecarteira/<login>')
