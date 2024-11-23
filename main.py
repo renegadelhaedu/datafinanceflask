@@ -51,23 +51,21 @@ def retornar():
         return redirect(url_for('verificarlogin'))
 
 
-@app.route('/registernewuser', methods=['POST','GET'])
+@app.route('/registernewuser', methods=['POST', 'GET'])
 def registrar_user():
+    if request.method == 'GET':
+        return render_template('cadastro.html')
 
-        if request.method == 'GET':
-            return render_template('cadastro.html')
-        
-        else:
-            nome = request.form['nome']
-            email = request.form['email']
-            estado = request.form['estado']
-            profissao = request.form['profissao']
-            senha = request.form['senha']
+    else:
+        nome = request.form['nome']
+        email = request.form['email']
+        profissao = request.form['profissao']
+        senha = request.form['senha']
 
-        if dao.inserir_user(nome,email,estado,profissao,senha):
-            return render_template('home.html')
-        else:
-            return render_template('register.html', msg='erro ao inserir usuário')
+    if dao.inserir_user(nome, email, profissao, senha):
+        return render_template('home.html')
+    else:
+        return render_template('register.html', msg='erro ao inserir usuário')
 
 
 @app.route('/verificarlogin', methods=['POST','GET'])
@@ -82,16 +80,15 @@ def verificarlogin():
 
         if len(usuario) > 0:
             session['user'] = usuario[0]
-            return render_template('logado.html', name=usuario[0][0], profession=usuario[0][2])
+            return render_template('mainpage.html', name=session['user'][0], profession=session['user'][1])
         else:
-            return render_template('login.html',msg_erro='usuário ou senha incorreta')
+            return render_template('home.html',msg_erro='usuário ou senha incorreta')
 
     elif request.method == 'GET' and 'user' in session:
-        usuario = session['user']
-        return render_template('logado.html', name=usuario[0][0], profession=usuario[2])
+        return render_template('mainpage.html', name=session['user'][0], profession=session['user'][1])
 
     else:
-        return render_template('login.html')
+        return render_template('home.html')
 
 
 

@@ -44,11 +44,6 @@ table {
   margin-bottom: 1.1em;
 }
 
-table h3{
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-}
 td {
   padding: 0 10px;
   font-size: 12px;
@@ -64,9 +59,6 @@ td {
   border-bottom: 1px solid rgba(0, 0, 0, 0.186);
   padding-bottom: 5px;
   padding-top: 5px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
 tbody tr:nth-child(even) {
