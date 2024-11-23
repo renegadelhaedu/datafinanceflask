@@ -5,7 +5,7 @@ from .portfolio_analisys import walletAnalisys
 from pandas import read_csv
 from datetime import datetime
 
-riscoretorno_bp = Blueprint('risco_retorno', __name__)
+riscoretorno_bp = Blueprint('riscoretorno', __name__)
 
 @riscoretorno_bp.route('/clustering', methods=['GET'])
 def show_clustering():
@@ -26,13 +26,13 @@ def update_dataStocks():
 
         #usar a lib os para tentar encontrar esse arquivo se não gerar uma thread para rodar a função filtering
         try:
-            filteredData = filtering('data/statusinvest-busca-avancada.csv', startDate=start, endDate=end)
+            filtering('data/statusinvest-busca-avancada.csv', startDate=start, endDate=end)
             listTickersFiltered = read_csv('data/acoes_filtradas.csv')['TICKER'].to_list()
-            evaluatedData = walletAnalisys(wallet=listTickersFiltered, market='^BVSP', startDate=start, endDate=end)
+            walletAnalisys(wallet=listTickersFiltered, market='^BVSP', startDate=start, endDate=end)
         except Exception as e:
             print(f'Error updating data: {e}')
-            return redirect(url_for('logado'))
+            return redirect(url_for('mainpage'))
 
-        return redirect(url_for('risco_retorno.show_clustering'))
+        return render_template('updatecsvanalisys.html')
     else:
         return render_template('home.html')
