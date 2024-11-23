@@ -49,9 +49,8 @@ def retornar():
     if 'user' in session:
         user = session['user']
         nome = user[0]
-        estado = user[1]
-        profissao = user[2]
-        return render_template('logado.html', name=nome, state=estado, profession=profissao)
+        profissao = user[1]
+        return render_template('mainpage.html', name=nome, profession=profissao)
     else:
         return redirect(url_for('verificarlogin'))
 
