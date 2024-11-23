@@ -17,10 +17,10 @@ logado_bp = Blueprint('logado', __name__)
 def pagina_iframe_logado(pagina):
 
     if 'user' in session and pagina == 'principal':
-        if 'carteira' not in session:
-            Thread(target=pegar_carteira_thread, args=(session['user'][3],)).start()
+        if 'carteira' not in carteira_session:
+            Thread(target=pegar_carteira_thread, args=(session['user'][2],)).start()
 
-        return render_template('iframelogado.html', login=session['user'][3])
+        return render_template('iframelogado.html', login=session['user'][2])
 
 
 @logado_bp.route('/rentabilidadecarteira/<login>')
@@ -46,4 +46,3 @@ def gerar_graf2d_risco_retorno(login):
     figura = grafico.gerarGrafRiscRet(data)
 
     return render_template('grafico2driscoretorno.html', plot=figura)
-
