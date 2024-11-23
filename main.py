@@ -129,23 +129,6 @@ def correlacaotickerindicador():
         return render_template('correlationindicador.html')
 
 
-@app.route('/correlacaoindicadores', methods=['POST','GET'])
-def correlacaoallindicadores():
-    if request.method == 'GET':
-        dataCorr = da.readCorrelacoesIndicFile('all')
-    else:
-        dataCorr = da.readCorrelacoesIndicFile('minhas')
-
-    return render_template('correlationindicadores.html',
-                           plot=gr.gerarGrafCorrIndicAll3D(dataCorr))
-
-
-@app.route('/atualizarcorrelacaoindicadores')
-def atualizarcorrelacaoallindicadores():
-    atualizar.atualizar()
-    return redirect('/correlacaoindicadores')
-
-
 @app.route('/gerariframeprincipal')
 def gerariframeprincipal():
     pares = da.pegarcotacoes()
