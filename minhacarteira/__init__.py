@@ -22,7 +22,7 @@ def inserir_acao():
         codigo = request.form.get('codigo').upper()
         qtde = request.form.get('qtde')
         pmedio = request.form.get('precomedio') #falta fazer tratamento no front ------------
-        email = session['user'][3]
+        email = session['user'][2]
 
         if codigo not in current_app.config['TICKERS']:
             return '<h2>Código de ação inválido</h2>' #criar pagina de erro ao inserir------------
@@ -45,7 +45,7 @@ def atualizar_acao():
                 carteira_atualizada[acao] = qtde_acao
 
         if len(carteira_atualizada) > 0:
-            if dao.atualizar_acoes(session['user'][3], carteira_atualizada):
+            if dao.atualizar_acoes(session['user'][2], carteira_atualizada):
                 return redirect(url_for('acoes.gerarminhacarteira'))
             else:
                 return redirect(url_for('acoes.gerarminhacarteira')) #falta fazer msg de erro ao atualizar
@@ -57,7 +57,7 @@ def atualizar_acao():
 @minhacarteira_bp.route('/excluir/<codigo>', methods=['GET'])
 def excluir_acao(codigo):
     if 'user' in session:
-        if dao.excluir_acao(session['user'][3], codigo):
+        if dao.excluir_acao(session['user'][2], codigo):
             return redirect(url_for('acoes.gerarminhacarteira'))
         else:
             return redirect(url_for('acoes.gerarminhacarteira'))  # falta fazer msg de erro ao atualizar
@@ -72,7 +72,7 @@ def pagina_acoes_add(metodo):
 
     elif metodo == 'atualizar' and 'user' in session:
         if 'carteira' not in session:
-            carteira = dao.get_carteira(session['user'][3])
+            carteira = dao.get_carteira(session['user'][2])
             session['carteira'] = carteira
 
         lista = [(chave, session['carteira'].get(chave)) for chave in session['carteira'].keys()]
@@ -80,7 +80,7 @@ def pagina_acoes_add(metodo):
 
     elif metodo == 'excluir' and 'user' in session:
         if 'carteira' not in session:
-            carteira = dao.get_carteira(session['user'][3])
+            carteira = dao.get_carteira(session['user'][2])
             session['carteira'] = carteira
 
         return render_template('excluiracao.html', acoes=session['carteira']) #---------falta fazer
@@ -91,7 +91,7 @@ def pagina_acoes_add(metodo):
 @minhacarteira_bp.route("/dividendospagos")
 def gerarrankingdividendos():
     if 'carteira' not in session:
-        carteira = dao.get_carteira(session['user'][3])
+        carteira = dao.get_carteira(session['user'][2])
         session['carteira'] = carteira
 
     dividen_df = dataAnalise.gerarrankingdividendos(session['carteira'].keys())
@@ -103,7 +103,7 @@ def gerarrankingdividendos():
 @minhacarteira_bp.route("/gerarminhacarteira")
 def gerarminhacarteira():
     if 'user' in session:
-        data, grid, dict_acoes = cart.gerarPercentuais(session['user'][3])
+        data, grid, dict_acoes = cart.gerarPercentuais(session['user'][2])
         session['carteira'] = dict_acoes
         if data is None:
             return render_template('adicionaracao.html')
