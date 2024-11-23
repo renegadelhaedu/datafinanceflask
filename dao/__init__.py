@@ -21,7 +21,7 @@ def conectardb():
 def login(user,senha):
     con = conectardb()
     cur = con.cursor()
-    sq = f"SELECT nome, estado, profissao, email from usuario where email='{user}' and senha='{senha}'  "
+    sq = f"SELECT nome, profissao, email from usuario where email='{user}' and senha='{senha}'  "
     cur.execute(sq)
     saida = cur.fetchall()
 
@@ -30,12 +30,12 @@ def login(user,senha):
 
     return saida
 
-def inserir_user(nome, email, estado, profissao, senha):
+def inserir_user(nome, email, profissao, senha):
 
     conn = conectardb()
     cur = conn.cursor()
     try:
-        sql = f"INSERT INTO usuario (email, senha, nome, estado, profissao) VALUES ('{email}','{senha}','{nome}', '{estado}', '{profissao}' )"
+        sql = f"INSERT INTO usuario (email, senha, nome, profissao) VALUES ('{email}','{senha}','{nome}', '{profissao}' )"
         cur.execute(sql)
 
         sql2 = f"INSERT INTO carteira (email_usuario) VALUES('{email}')"
@@ -153,7 +153,6 @@ def criar_tabelas():
         email VARCHAR(255) NOT NULL,
         senha VARCHAR(255) NOT NULL,
         nome VARCHAR(255)  NOT NULL,
-        estado text NOT NULL,
         profissao text NOT NULL,
         CONSTRAINT usuarios_pkey PRIMARY KEY (email)
     );

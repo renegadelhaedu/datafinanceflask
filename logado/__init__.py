@@ -18,7 +18,6 @@ def pagina_iframe_logado(pagina):
 
     if 'user' in session and pagina == 'principal':
         if 'carteira' not in session:
-            print('nao tava na sessao principal')
             Thread(target=pegar_carteira_thread, args=(session['user'][3],)).start()
 
         return render_template('iframelogado.html', login=session['user'][3])
@@ -28,7 +27,6 @@ def pagina_iframe_logado(pagina):
 def calcular_rentabilidade_carteira(login):
 
     if 'carteira' not in session:
-        print('nao tava na sessao rentabilciarteira')
         session['carteira'] = carteira_session['carteira']
 
     dados = dataAnalise.rentabilidadeAcumulada('no Mês', login, session['carteira'])
@@ -41,7 +39,6 @@ def calcular_rentabilidade_carteira(login):
 def gerar_graf2d_risco_retorno(login):
 
     if 'carteira' not in session:
-        print('nao tava na sessao risco retorno')
         session['carteira'] = carteira_session['carteira']
 
     data = dataAnalise.calcularRiscoRetJanelasTemp(session['carteira'].keys())
