@@ -9,7 +9,7 @@ carteira_session = {}
 
 def pegar_carteira_thread(login):
     carteira_session['carteira'] = dao.get_carteira(login)
-    session['carteira'] = carteira_session['carteira']
+
     
 logado_bp = Blueprint('logado', __name__)
 
@@ -50,7 +50,6 @@ def gerar_graf2d_risco_retorno(login):
 @logado_bp.route('/correlacaoindicadoresmacro', methods=['GET'])
 def correlacaoallindicadores():
     if 'carteira' not in session:
-        print(carteira_session)
         session['carteira'] = carteira_session['carteira']
 
     dataCorr = dataAnalise.gerarCorrelacoesCarteiraXindMacro(session['carteira'].keys())
