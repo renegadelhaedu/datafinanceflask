@@ -1,11 +1,22 @@
 import pandas as pd
 import yfinance as yf
-import numpy as np
+import pathlib
+from flask import *
+
+filtragem_bp = Blueprint('filtragem', __name__)
+
+@filtragem_bp.route('/')
+def pagina_iframe_logado():
+    actual_dir = pathlib.Path().absolute()
+    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
+    print(path)
+    print(gerar_filtragem(path))
+    return 'ok'
 
 
 def gerar_filtragem(path):
-    dados = pd.read_csv('statusinvest-busca-avancada.csv', decimal="," , delimiter=";", thousands=".")
 
+    dados = pd.read_csv(path, decimal="," , delimiter=";", thousands=".")
 
     selecao = dados[['TICKER', 'PRECO', 'DY', 'P/L', 'P/VP', 'MARG. LIQUIDA',
            'DIVIDA LIQUIDA / EBIT', 'ROE']]
@@ -35,15 +46,11 @@ def gerar_filtragem(path):
 
     selecao.sort_values('DY')
 
-    tic = []
-    for i in selecao["TICKER"]:
-        #ticket = yf.Ticker(i + ".SA")
-        ticket = (i + ".SA")
-        tic.append(ticket)
+    tickers = [ x + ".SA" for x in selecao['TICKER']]
 
     median_dy_dict = {}
 
-    for ticker in tic:
+    for ticker in tickers:
         try:
             div = yf.download(ticker, start='2019-01-01', actions=True)
             if not div.empty and 'Dividends' in div:
@@ -158,3 +165,5 @@ def gerar_filtragem(path):
 
 
     top_3_acoes = valuation_df_sorted.head(3)
+    print(top_3_acoes)
+

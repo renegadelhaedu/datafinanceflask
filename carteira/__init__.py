@@ -20,7 +20,7 @@ def gerarPercentuais(email):
     cart = dao.get_carteira(email)
 
     if len(cart) == 0:
-        return None, None
+        return None, None, None
 
     tikers = list(map(lambda x: x + '.SA', list(cart.keys())))
 
