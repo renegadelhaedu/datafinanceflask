@@ -11,7 +11,10 @@
     <div class="acoes">
         <div class="acoes-slide">
           {% for nome, valor in pares %}
-          <p>{{nome}} - {{valor}}</p>
+
+          <p>
+              <a href="/acoes/exibirdetalhesacao/{{nome}}" target="_blank">{{nome}} - R$ {{valor}}</a>
+          </p>
           {% endfor %}
         </div>
       </div>

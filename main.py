@@ -58,18 +58,18 @@ def retornar():
 @app.route('/registernewuser', methods=['POST', 'GET'])
 def registrar_user():
     if request.method == 'GET':
-        return render_template('cadastro.html')
+        return render_template('register.html')
 
     else:
-        nome = request.form['nome']
-        email = request.form['email']
-        profissao = request.form['profissao']
-        senha = request.form['senha']
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        profissao = request.form.get('profissao')
+        senha = request.form.get('senha')
 
     if dao.inserir_user(nome, email, profissao, senha):
         return render_template('home.html')
     else:
-        return render_template('register.html', msg='erro ao inserir usuário')
+        return render_template('register.html', msg='Erro ao inserir usuário')
 
 
 @app.route('/verificarlogin', methods=['POST','GET'])
@@ -95,14 +95,10 @@ def verificarlogin():
         return render_template('home.html')
 
 
-
 @app.route('/teste')
 def teste():
     return render_template('hometeste.html')
 
-@app.route('/register')
-def register_page():
-    return render_template('register.html')
 
 @app.route('/carteira')
 def carteira():

@@ -40,13 +40,13 @@ def inserir_user(nome, email, profissao, senha):
 
         sql2 = f"INSERT INTO carteira (email_usuario) VALUES('{email}')"
         cur.execute(sql2)
+        conn.commit()
 
-
-    except psycopg2.IntegrityError:
+    except psycopg2.Error as e:
         conn.rollback()
         exito = False
+        print(e)
     else:
-        conn.commit()
         exito = True
 
     cur.close()

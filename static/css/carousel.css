@@ -46,6 +46,11 @@
   animation: 35s slide infinite linear;
 }
 
+.acoes-slide a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .acoes-slide p {
   height: 50px;
   margin: 0 40px;

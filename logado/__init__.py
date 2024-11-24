@@ -5,7 +5,6 @@ import grafico
 import dao
 from threading import Thread
 
-
 carteira_session = {}
 
 def pegar_carteira_thread(login):

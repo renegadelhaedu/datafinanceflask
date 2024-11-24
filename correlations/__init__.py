@@ -3,11 +3,16 @@ import numpy as np
 import pandas as pd
 import random
 from deap import base, creator, tools, algorithms
+import dao
 
-tickers = []
+tickers = dao.getEmpresasListadasAntigas()
+if type(tickers) is list:
+    tickers = [x + '.SA' for x in tickers]
+else:
+    tickers = [x + '.SA' for x in tickers.keys()]
 
-def get_correlation_matrix(tickers, start="2022-01-01", end="2024-01-01"):
-    data = yf.download(tickers, start=start, end=end)["Adj Close"]
+def get_correlation_matrix(tickers):
+    data = yf.download(tickers, period='10y')["Adj Close"]
     returns = data.pct_change().dropna() 
     corr_matrix = returns.corr()  
     return corr_matrix
@@ -41,3 +46,5 @@ result = algorithms.eaSimple(pop, toolbox, cxpb, mutpb, ngen, stats=None, verbos
 
 best_ind = tools.selBest(pop, 1)[0]
 best_tickers = [tickers[i] for i in best_ind]
+print(best_ind)
+print(best_tickers)
