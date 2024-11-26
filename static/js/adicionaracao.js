@@ -2,7 +2,7 @@ const numberInput = document.querySelector("#number-input")
 const amountInput = document.querySelector("#amount-input")
 const priceInput = document.querySelector("#price-input")
 
-const arrayInputs = [numberInput, amountInput, priceInput]
+const arrayInputs = [amountInput, priceInput]
 
 const validDigits = (text) => {
     return text.replace(/[^0-9,]/g, "")
