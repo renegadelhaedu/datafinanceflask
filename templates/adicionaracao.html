@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/adicionaracao.css')}}">
+    <script src="{{ url_for('static', filename='js/adicionaracao.js')}}" defer></script>
 </head>
 <body>
 
@@ -12,17 +13,17 @@
     <form action="/acoes/adicionar" method="post">
         <div class="form-control">
             <label>Código da Ação</label>
-            <input type="text" name="codigo" maxlength="6"><br>
+            <input type="text" name="codigo" id="number-input" maxlength="6"><br>
         </div>
 
         <div class="form-control">
             <label>Quantidade de ações</label>
-            <input type="number" name="qtde" maxlength="10"><br>
+            <input type="text" name="qtde" id="amount-input" maxlength="10"><br>
         </div>
 
         <div class="form-control">
             <label>Preço Médio</label>
-            <input type="text" name="precomedio" maxlength="10"><br>
+            <input type="text" name="precomedio" id="price-input" maxlength="10"><br>
         </div>
 
         <button type="submit">Cadastrar Ação</button>
