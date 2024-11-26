@@ -104,7 +104,7 @@ def gerar_filtragem(path):
         #  Dividend Yield (DY)
         if row['DY'] >= median_dy * 1.2:  # DY 20% maior q a mediana
           criteria_evaluation['DY'] = 'Bom'
-        elif row['DY'] >= median_dy_total:  # Pelo menos a mediana
+        elif row['DY'] >= median_dy:  # Pelo menos a mediana
           criteria_evaluation['DY'] = 'Ok'
         else:
           criteria_evaluation['DY'] = 'Ruim'
