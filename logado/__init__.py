@@ -10,6 +10,8 @@ carteira_session = {}
 def pegar_carteira_thread(login):
     carteira_session['carteira'] = dao.get_carteira(login)
 
+    session['carteira'] = carteira_session['carteira']
+
     
 logado_bp = Blueprint('logado', __name__)
 

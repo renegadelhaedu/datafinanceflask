@@ -24,7 +24,7 @@ def calculate_inidicators_with_user_wallet():
         currentDate = datetime.now()
         end = f'{str(currentDate.year)}-{str(currentDate.month)}-{str(currentDate.day)}'
 
-        indicatorsDataframe = walletAnalisys(wallet=wallet, market='^BVSP', startDate=start, endDate=end)
+        indicatorsDataframe = walletAnalisys(wallet=wallet, market='^BVSP', startDate=start, endDate=end, exportCsv=False)
         indicators = indicatorsDataframe.to_dict(orient='records')
         print(indicatorsDataframe)
 
