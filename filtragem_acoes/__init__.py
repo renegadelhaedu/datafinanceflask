@@ -2,6 +2,7 @@ import pandas as pd
 import yfinance as yf
 import pathlib
 from flask import *
+import dao
 
 filtragem_bp = Blueprint('filtragem', __name__)
 
@@ -10,8 +11,12 @@ def pagina_iframe_logado():
     actual_dir = pathlib.Path().absolute()
     path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
     print(path)
-    print(gerar_filtragem(path))
+    carteira = dao.get_carteira('renegadelha@gmail.com')
+    print(modeloGordon(carteira))
+    #print(gerar_filtragem(path))
     return 'ok'
+
+
 
 
 def gerar_filtragem(path):
@@ -48,6 +53,9 @@ def gerar_filtragem(path):
 
     tickers = [ x + ".SA" for x in selecao['TICKER']]
 
+
+
+def restante(tickers):
     median_dy_dict = {}
 
     for ticker in tickers:
@@ -91,79 +99,111 @@ def gerar_filtragem(path):
         except Exception as e:
             print(f"Erro ao processar {ticker}: {e}")
 
-
-    valuation_df = pd.DataFrame({'Ticker': list(sorted_stocks.keys()), 'Mediana DY': list(sorted_stocks.values()), 'Valuation': valuation_list})
+    valuation_df = pd.DataFrame(
+        {'Ticker': list(sorted_stocks.keys()), 'Mediana DY': list(sorted_stocks.values()), 'Valuation': valuation_list})
 
     valuation_list = []
     for index, row in selecao.iterrows():
-      ticker = row['TICKER']
-      try:
-        median_dy = median_dy_dict[ticker + ".SA"]
-        criteria_evaluation = {}
+        ticker = row['TICKER']
+        try:
+            median_dy = median_dy_dict[ticker + ".SA"]
+            criteria_evaluation = {}
 
-        #  Dividend Yield (DY)
-        if row['DY'] >= median_dy * 1.2:  # DY 20% maior q a mediana
-          criteria_evaluation['DY'] = 'Bom'
-        elif row['DY'] >= median_dy_total:  # Pelo menos a mediana
-          criteria_evaluation['DY'] = 'Ok'
-        else:
-          criteria_evaluation['DY'] = 'Ruim'
+            #  Dividend Yield (DY)
+            if row['DY'] >= median_dy * 1.2:  # DY 20% maior q a mediana
+                criteria_evaluation['DY'] = 'Bom'
+            elif row['DY'] >= median_dy_total:  # Pelo menos a mediana
+                criteria_evaluation['DY'] = 'Ok'
+            else:
+                criteria_evaluation['DY'] = 'Ruim'
 
-        #  P/L
-        if row['P/L'] >= 10:
-          criteria_evaluation['P/L'] = 'Bom'
-        elif row['P/L'] <= 15:
-          criteria_evaluation['P/L'] = 'Ok'
-        else:
-          criteria_evaluation['P/L'] = 'Ruim'
+            #  P/L
+            if row['P/L'] >= 10:
+                criteria_evaluation['P/L'] = 'Bom'
+            elif row['P/L'] <= 15:
+                criteria_evaluation['P/L'] = 'Ok'
+            else:
+                criteria_evaluation['P/L'] = 'Ruim'
 
-        #  P/VP
-        if row['P/VP'] <= 1.5:
-          criteria_evaluation['P/VP'] = 'Bom'
-        elif row['P/VP'] <= 2:
-          criteria_evaluation['P/VP'] = 'Ok'
-        else:
-          criteria_evaluation['P/VP'] = 'Ruim'
+            #  P/VP
+            if row['P/VP'] <= 1.5:
+                criteria_evaluation['P/VP'] = 'Bom'
+            elif row['P/VP'] <= 2:
+                criteria_evaluation['P/VP'] = 'Ok'
+            else:
+                criteria_evaluation['P/VP'] = 'Ruim'
 
-        #  Margem Liquida
-        if row['MARG. LIQUIDA'] >= 0.20:
-          criteria_evaluation['MARG. LIQUIDA'] = 'Bom'
-        elif row['MARG. LIQUIDA'] >= 0.15:
-          criteria_evaluation['MARG. LIQUIDA'] = 'Ok'
-        else:
-          criteria_evaluation['MARG. LIQUIDA'] = 'Ruim'
+            #  Margem Liquida
+            if row['MARG. LIQUIDA'] >= 0.20:
+                criteria_evaluation['MARG. LIQUIDA'] = 'Bom'
+            elif row['MARG. LIQUIDA'] >= 0.15:
+                criteria_evaluation['MARG. LIQUIDA'] = 'Ok'
+            else:
+                criteria_evaluation['MARG. LIQUIDA'] = 'Ruim'
 
-        #  ROE
-        if row['ROE'] >= 0.20:
-          criteria_evaluation['ROE'] = 'Bom'
-        elif row['ROE'] >= 0.14:
-          criteria_evaluation['ROE'] = 'Ok'
-        else:
-          criteria_evaluation['ROE'] = 'Ruim'
+            #  ROE
+            if row['ROE'] >= 0.20:
+                criteria_evaluation['ROE'] = 'Bom'
+            elif row['ROE'] >= 0.14:
+                criteria_evaluation['ROE'] = 'Ok'
+            else:
+                criteria_evaluation['ROE'] = 'Ruim'
 
-        #  Divida Liquida / EBIT
-        if row['DIVIDA LIQUIDA / EBIT'] <= 1.5:
-          criteria_evaluation['DIVIDA LIQUIDA / EBIT'] = 'Bom'
-        elif row['DIVIDA LIQUIDA / EBIT'] <= 2.5:
-          criteria_evaluation['DIVIDA LIQUIDA / EBIT'] = 'Ok'
-        else:
-          criteria_evaluation['DIVIDA LIQUIDA / EBIT'] = 'Ruim'
+            #  Divida Liquida / EBIT
+            if row['DIVIDA LIQUIDA / EBIT'] <= 1.5:
+                criteria_evaluation['DIVIDA LIQUIDA / EBIT'] = 'Bom'
+            elif row['DIVIDA LIQUIDA / EBIT'] <= 2.5:
+                criteria_evaluation['DIVIDA LIQUIDA / EBIT'] = 'Ok'
+            else:
+                criteria_evaluation['DIVIDA LIQUIDA / EBIT'] = 'Ruim'
 
-       # valuation = (row['DY'] * median_dy)
-        current_price = stock_info.info.get("currentPrice")
-        valuation = (median_dy * current_price) / 0.06
-        valuation_list.append([ticker, row['DY'], median_dy, valuation, criteria_evaluation])
-      except KeyError:
-        print(f"Median DY not found for {ticker}")
+            # valuation = (row['DY'] * median_dy)
+            current_price = stock_info.info.get("currentPrice")
+            valuation = (median_dy * current_price) / 0.06
+            valuation_list.append([ticker, row['DY'], median_dy, valuation, criteria_evaluation])
+        except KeyError:
+            print(f"Median DY not found for {ticker}")
 
-    valuation_df = pd.DataFrame(valuation_list, columns=['Ticker', 'DY', 'Median DY', 'Valuation', 'Criterios Fundamentalistas'])
+    valuation_df = pd.DataFrame(valuation_list,
+                                columns=['Ticker', 'DY', 'Median DY', 'Valuation', 'Criterios Fundamentalistas'])
     valuation_df.sort_values('DY', ascending=False, inplace=True)
 
-    valuation_df['Num_Criterios_Ruim'] = valuation_df['Criterios Fundamentalistas'].apply(lambda x: sum(value == 'Ruim' for value in x.values()))
+    valuation_df['Num_Criterios_Ruim'] = valuation_df['Criterios Fundamentalistas'].apply(
+        lambda x: sum(value == 'Ruim' for value in x.values()))
 
     valuation_df_sorted = valuation_df.sort_values('Num_Criterios_Ruim')
-
 
     top_3_acoes = valuation_df_sorted.head(3)
     print(top_3_acoes)
 
+
+def modeloGordon(dados):
+    gordon = []
+
+    for name in dados.keys():
+
+        comp = yf.Ticker(name + '.SA')
+        hist2 = comp.history(start='2020-01-01')
+        hist = comp.history()
+
+        if (len(hist2) != 0):
+            somaDiv = hist2['Dividends'].resample('Y').sum()
+            gordonPrice = somaDiv.median() / 0.06
+
+            meanPrice = hist2['Close'].resample('Y').mean()
+            volatil = somaDiv.std() / somaDiv.mean()
+            dy_anos = somaDiv / meanPrice * 100
+
+            lastPrice = hist['Close'][-1]
+            if pd.isna(lastPrice):
+                lastPrice = hist['Close'][-2]
+
+            difGordon = (gordonPrice - lastPrice) / gordonPrice * 100
+
+            gordon.append([name,
+                           float("{0:.2f}".format(difGordon)),
+                           float("{0:.2f}".format(volatil)),
+                           float("{0:.2f}".format(somaDiv.median())),
+                           float("{0:.2f}".format(dy_anos.median()))])
+
+    return gordon

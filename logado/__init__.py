@@ -55,3 +55,13 @@ def correlacaoallindicadores():
     dataCorr = dataAnalise.gerarCorrelacoesCarteiraXindMacro(session['carteira'].keys())
 
     return render_template('correlationindicadores.html', plot=grafico.gerarGrafCorrIndicAll3D(dataCorr))
+
+
+@logado_bp.route('/gerarmelhorcarteiraag', methods=['GET'])
+def gerar_carteira_ideal_ag():
+    if 'carteira' not in session:
+        session['carteira'] = carteira_session['carteira']
+
+    #chamar o metodo do ag e mandar a carteira do usuario para reduzir o numero de ativos e
+    #deixar os melhores
+    return render_template('')
