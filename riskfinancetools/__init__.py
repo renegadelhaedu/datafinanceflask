@@ -21,9 +21,10 @@ def calculate_inidicators_with_user_wallet():
     if 'user' in session:
         wallet = list(session['carteira'].keys())
         start = "2022-01-01"
-        end = "2024-11-19"
+        currentDate = datetime.now()
+        end = f'{str(currentDate.year)}-{str(currentDate.month)}-{str(currentDate.day)}'
 
-        indicatorsDataframe = walletAnalisys(wallet=wallet, market='^BVSP', startDate=start, endDate=end)
+        indicatorsDataframe = walletAnalisys(wallet=wallet, market='^BVSP', startDate=start, endDate=end, exportCsv=False)
         indicators = indicatorsDataframe.to_dict(orient='records')
         print(indicatorsDataframe)
 
@@ -33,13 +34,9 @@ def calculate_inidicators_with_user_wallet():
 @riscoretorno_bp.route('/updateCsv', methods=['GET'])
 def update_dataStocks():
     if 'user' in session:
-        start = "2022-01-01"
-        end = "2024-11-19"
-        # currentDate = datetime.now()
-        # end = f'{str(currentDate.year)}-{str(currentDate.month)}-{str(currentDate.day)}'
-
-        #usar a lib os para tentar encontrar esse arquivo se não gerar uma thread para rodar a função filtering
         try:
+            start = "2022-01-01"
+            end = "2024-11-22"
             filtering('data/statusinvest-busca-avancada.csv', startDate=start, endDate=end)
             listTickersFiltered = read_csv('data/acoes_filtradas.csv')['TICKER'].to_list()
             walletAnalisys(wallet=listTickersFiltered, market='^BVSP', startDate=start, endDate=end)
