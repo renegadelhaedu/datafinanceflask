@@ -14,7 +14,7 @@ def clusteringKmeans(data=None, csvData=None):
     # Validação
     if 'TICKER' not in data.columns:
         raise ValueError("A coluna 'TICKER' é obrigatória.")
-    required_columns = ['BETA', 'STD', 'SHARPE RATIO']
+    required_columns = ['BETA', 'STD', 'SHARPE RATIO', 'TREYNOR RATIO']
     for col in required_columns:
         if col not in data.columns:
             raise ValueError(f"A coluna '{col}' é obrigatória para o clustering.")
@@ -53,8 +53,9 @@ def clusteringKmeans(data=None, csvData=None):
     # Exportação com clusters
     data.to_csv('data/clusters.csv', index=False)
 
-    # Paleta de cores para clusters
-    cluster_colors = {f"Cluster {i+1}": f"rgb({(i*10)%255},{(i*30)%255},{(i*100)%255})" for i in range(n_clusters)}
+    # Paleta de cores para clusters]
+    pallete = px.colors.qualitative.Bold    
+    cluster_colors = {f"Cluster {i+1}": pallete[i % len(pallete)] for i in range(n_clusters)}
 
     # Gráfico 3D com legenda
     fig = go.Figure()
@@ -63,7 +64,7 @@ def clusteringKmeans(data=None, csvData=None):
         cluster_data = data[data['Cluster'] == cluster]
         fig.add_trace(go.Scatter3d(
             x=cluster_data['BETA'],
-            y=cluster_data['STD'] * 100,  # STD convertido para porcentagem
+            y=cluster_data['STD'] * 100,
             z=cluster_data['SHARPE RATIO'],
             mode='markers',
             marker=dict(
