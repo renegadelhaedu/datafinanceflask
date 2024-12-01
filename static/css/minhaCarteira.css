@@ -87,6 +87,7 @@ main iframe {
   border: none;
   overflow: hidden;
   height: 80%;
+  width: 100%;
 }
 
 /* FOOTER */

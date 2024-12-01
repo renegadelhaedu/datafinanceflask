@@ -78,12 +78,16 @@ def readRankingDividendos(opcao):
 
 
 def gerarCorrelacoesCarteiraXindMacro(tickers):
+    selic_df = consulta_bc(432)
+    ibcbr_df = consulta_bc(24364)
+    ipca_df = consulta_bc(433)
 
     lista = []
     for ticker in tickers:
-        ipca = gerarcorrelacaoindividual(ticker ,'ipca')
-        selic = gerarcorrelacaoindividual(ticker , 'selic')
-        ibcbr = gerarcorrelacaoindividual(ticker, 'ibcbr')
+        print(ticker)
+        ipca = gerarcorrelacaoindividual(ticker ,'ipca',ipca_df)
+        selic = gerarcorrelacaoindividual(ticker , 'selic', selic_df)
+        ibcbr = gerarcorrelacaoindividual(ticker, 'ibcbr', ibcbr_df)
 
         lista.append([ipca[0], selic[0], ibcbr[0]])
 
@@ -91,17 +95,16 @@ def gerarCorrelacoesCarteiraXindMacro(tickers):
     return data
 
 
-def gerarcorrelacaoindividual(ticker, indicador):
+def gerarcorrelacaoindividual(ticker, indicador, data_indicador):
     if indicador == 'selic':
-        ind_df = consulta_bc(432)
+        ind_df = data_indicador
     elif indicador == 'ibcbr':
-        ind_df = consulta_bc(24364)
+        ind_df = data_indicador
     elif indicador == 'ipca':
-        ind_df = consulta_bc(433)
+        ind_df = data_indicador
     data_inicio = '2014-01-01'
 
-    cotaMensal = yf.Ticker(ticker + ".SA").history(period='10Y').resample('ME')['Close'].mean().to_frame()
-
+    cotaMensal = yf.Ticker(ticker + ".SA").history(start='2014-01-01').resample('ME')['Close'].mean().to_frame()
     ind_df = ind_df[ind_df.index >= data_inicio]
     ind_df = ind_df.resample('ME').mean()
 
@@ -109,14 +112,18 @@ def gerarcorrelacaoindividual(ticker, indicador):
     if cotaMensal.size - ind_df.size > 0:
         cotaMensal.drop(cotaMensal.tail(cotaMensal.size - ind_df.size).index, inplace=True)
 
+    if cotaMensal.size - ind_df.size < 0:
+        ind_df.drop(ind_df.head(ind_df.size - cotaMensal.size).index, inplace=True)
+
     cotaMensal.index = pd.to_datetime(cotaMensal.index.date)
 
     ind_stock = pd.concat([ind_df, cotaMensal], axis=1, ignore_index=True)
+    ind_stock.dropna(inplace=True)
 
     df_norm = (ind_stock - ind_stock.min()) / (ind_stock.max() - ind_stock.min())
     df_norm.columns = ['indicador', 'stock']
 
-    return round(float(df_norm.corr().iloc(0)[1][0]), 3), df_norm
+    return round(float(df_norm.corr().iloc(0)[1][0]), 2), df_norm
 
 
 def calcularRiscoRetJanelasTemp(tickers):
