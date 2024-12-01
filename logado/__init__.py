@@ -1,5 +1,5 @@
 from flask import Blueprint, current_app, render_template, session, request, redirect, url_for
-
+import pandas as pd
 import dataAnalise
 import grafico
 import dao
@@ -10,7 +10,7 @@ carteira_session = {}
 def pegar_carteira_thread(login):
     carteira_session['carteira'] = dao.get_carteira(login)
 
-    session['carteira'] = carteira_session['carteira']
+
 
     
 logado_bp = Blueprint('logado', __name__)
@@ -54,9 +54,10 @@ def correlacaoallindicadores():
     if 'carteira' not in session:
         session['carteira'] = carteira_session['carteira']
 
-    dataCorr = dataAnalise.gerarCorrelacoesCarteiraXindMacro(session['carteira'].keys())
-
-    return render_template('correlationindicadores.html', plot=grafico.gerarGrafCorrIndicAll3D(dataCorr))
+    #dataCorr = dataAnalise.gerarCorrelacoesCarteiraXindMacro(session['carteira'].keys())
+    dataCorr = pd.read_pickle('data/correlacoesIndMacroAll.pkl')
+    carteiraCorr = dataCorr[dataCorr.index.isin(session['carteira'].keys())]
+    return render_template('correlationindicadores.html', plot=grafico.gerarGrafCorrIndicAll3D(carteiraCorr))
 
 
 @logado_bp.route('/gerarmelhorcarteiraag', methods=['GET'])

@@ -14,13 +14,13 @@ app.config['TICKERS'] = cart.get_codigos_acoes()
 from minhacarteira import  minhacarteira_bp
 from riskfinancetools import riscoretorno_bp
 from logado import logado_bp
-from filtragem_acoes import filtragem_bp
+#from filtragem_acoes import filtragem_bp
 
 
 app.register_blueprint(minhacarteira_bp, url_prefix="/acoes")
 app.register_blueprint(riscoretorno_bp, url_prefix="/riscoretorno")
 app.register_blueprint(logado_bp, url_prefix="/logado")
-app.register_blueprint(filtragem_bp, url_prefix="/filtragem")
+#app.register_blueprint(filtragem_bp, url_prefix="/filtragem")
 
 @app.route('/')
 def home():
