@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/ag_config.css">
+    <title>Configuração do AG</title>
+</head>
+<body>
+    <!-- Formulário de Configuração -->
+    <div class="ag-container">
+        <div class="popup-content">
+            <h2>Configuração do AG</h2>
+            <form action="/logado/configurarag" method="post">
+                <div class="input-group">
+                    <label for="num-acoes">Número de ações na carteira</label>
+                    <input type="number" id="num-acoes" name="num_acoes" min="1" required>
+                </div>
+                <div class="input-group">
+                    <label for="tickers">Ações desejadas (separe por vírgula)</label>
+                    <input type="text" id="tickers" name="tickers" placeholder="Exemplo: PETR4,VALE3,ITUB4">
+                </div>
+                <button type="submit">Executar AG</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

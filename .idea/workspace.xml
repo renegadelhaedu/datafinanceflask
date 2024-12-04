@@ -33,6 +33,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -68,7 +71,7 @@
       <recent name="D:\pythonProjects\datafinanceflask\static\Imagens" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.teste">
+  <component name="RunManager" selected="Python.main">
     <configuration name="__init__ (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="datafinanceflask" />
       <option name="ENV_FILES" value="" />
@@ -183,8 +186,8 @@
       <list>
         <item itemvalue="Python.main" />
         <item itemvalue="Python.teste" />
-        <item itemvalue="Python.__init__ (1)" />
         <item itemvalue="Python.__init__ (2)" />
+        <item itemvalue="Python.__init__ (1)" />
         <item itemvalue="Python.__init__ (3)" />
       </list>
     </recent_temporary>
@@ -192,7 +195,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5a2391486177-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13763.11" />
+        <option value="bundled-python-sdk-8336bb23522e-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.19072.16" />
       </set>
     </attachedChunks>
   </component>
