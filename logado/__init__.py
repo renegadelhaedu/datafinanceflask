@@ -4,6 +4,7 @@ import dataAnalise
 import grafico
 import dao
 from threading import Thread
+from correlations import ag_mult
 
 carteira_session = {}
 
@@ -62,9 +63,45 @@ def correlacaoallindicadores():
 
 @logado_bp.route('/gerarmelhorcarteiraag', methods=['GET'])
 def gerar_carteira_ideal_ag():
-    if 'carteira' not in session:
-        session['carteira'] = carteira_session['carteira']
+    try:
+        num_acoes = session.get('num_acoes')
+        tickers = session.get('tickers')
 
-    #chamar o metodo do ag e mandar a carteira do usuario para reduzir o numero de ativos e
-    #deixar os melhores
-    return render_template('')
+        if not num_acoes or not tickers:
+            return "Configuração não encontrada. Configure primeiro o AG.", 400
+
+        print(f"Configuração recuperada: num_acoes={num_acoes}, tickers={tickers}")  # Log para depuração
+
+        resultados = ag_mult(num_acoes, tickers)
+
+        print(f"Resultados obtidos: {resultados}")  # Log para ver se tá recevendo
+
+        return render_template(
+            'ag_carteira.html',
+            melhores_tickers=resultados[0],
+            retorno_medio=resultados[1],
+            correlacao_media=resultados[2]
+        )
+    except Exception as e:
+        print(f"Erro ao gerar a carteira ideal: {e}")
+        return "Erro ao gerar a carteira ideal", 500
+
+
+@logado_bp.route('/configurarag', methods=['GET', 'POST'])
+def configurar_ag():
+    if request.method == 'POST':
+        try:
+            num_acoes = int(request.form.get('num_acoes'))
+            tickers = request.form.get('tickers').split(',')
+
+            session['num_acoes'] = num_acoes
+            session['tickers'] = {ticker.strip(): 0 for ticker in tickers}
+
+            print(f"Configuração salva: num_acoes={num_acoes}, tickers={session['tickers']}")  # Log para depuração
+
+            return redirect(url_for('logado.gerar_carteira_ideal_ag'))
+        except Exception as e:
+            print(f"Erro ao configurar AG: {e}")
+            return "Erro ao configurar AG", 500
+
+    return render_template('configurar_ag.html')
