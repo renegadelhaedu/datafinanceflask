@@ -149,6 +149,7 @@ def gerarrankingdividendos(opcao):
 
     return render_template('rankingdividendos.html', plot=gr.gerarBarGrafDividendos(data))
 
+
 @app.route('/rankingacoes/<opcao>', methods=['GET', 'POST'])
 def gerarrankingvalores(opcao):
     if opcao == 'all':

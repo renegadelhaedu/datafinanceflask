@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados da Carteira Ideal</title>
+    <link rel="stylesheet" href="../static/css/ag_resultado.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Carteira Ideal Gerada</h1>
+        <h2>Tickers Selecionados:</h2>
+        <ul>
+            {% for ticker in melhores_tickers %}
+            <li>{{ ticker }}</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Retorno Médio:</strong> {{ retorno_medio }}</p>
+        <p><strong>Correlação Média:</strong> {{ correlacao_media }}</p>
+    </div>
+</body>
+</html>
