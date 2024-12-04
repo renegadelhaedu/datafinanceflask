@@ -370,3 +370,111 @@ def get_previous_business_day():
     while previous_day.weekday() >= 5:
         previous_day -= one_day
     return previous_day.strftime("%Y-%m-%d")
+
+
+def processarAnalise():
+
+    actual_dir = pathlib.Path().absolute()
+
+    path = f'{actual_dir}/data/statusinvest-busca-avancada.csv'
+    dados = pd.read_csv(path, decimal=",", delimiter=";", thousands=".")
+    dados3 = dados[dados['TICKER'].isin(dao.getAcoesListadas())]
+
+    filtroMaisLiquidas = ticketsMaiorLiquidez(dados3)
+    dados3 = dados3[dados3['TICKER'].isin(filtroMaisLiquidas)]
+    dados3.fillna(0, inplace=True)
+    dados3.loc[dados3['MARGEM EBIT'] == 0, 'MARGEM EBIT'] = dados3['MARGEM EBIT'].median()
+
+    dados3.drop(dados3[dados3[' LIQUIDEZ MEDIA DIARIA'] < 500000].index, inplace=True)
+    dados3.drop(dados3[dados3['P/L'] <= 0].index, inplace=True)
+    dados3.drop(dados3[dados3['DIVIDA LIQUIDA / EBIT'] >= 3].index, inplace=True)
+    dados3.drop(dados3[dados3[' LPA'] <= 0].index, inplace=True)
+    dados3.drop(dados3[dados3['DY'] < 1].index, inplace=True)
+    dados3.drop(dados3[dados3['ROE'] < 3].index, inplace=True)
+    dados3.drop(dados3[dados3['EV/EBIT'] <= 0].index, inplace=True)
+    dados3.drop(dados3[dados3['EV/EBIT'] > 30].index, inplace=True)
+    dados3.drop(dados3[dados3['PRECO'] <= 0].index, inplace=True)
+
+    magdata = calcularMagicFormulaRene(dados3)
+
+    gordondata = modeloGordon(dados3)
+
+    tmag = magdata
+    tgordon = gordondata
+
+    tmag = tmag.merge(tgordon, how='left', on='stock')
+
+    return tmag
+
+
+def calcularMagicFormulaRene(dados):
+    dados4 = dados.replace(np.nan, 0)
+
+    ranks = dict(zip(list(dados4.TICKER), [0] * len(dados4)))
+#    for name in dados4.TICKER:
+#        ranks[name] = 0
+
+    dados4 = dados4.sort_values(by=['ROE'], ascending=False)
+    i = 1
+    for name in dados4.TICKER:
+        i = i + 1
+        ranks[name] = ranks[name] + i
+
+    dados4 = dados4.sort_values(by=['MARGEM EBIT'], ascending=False)
+    i = 0
+    for name in dados4.TICKER:
+        i = i + 1
+        ranks[name] = ranks[name] + i
+
+    dados4 = dados4.sort_values(by=['EV/EBIT'])
+    i = 1
+    for name in dados4.TICKER:
+        i = i + 1
+        ranks[name] = ranks[name] + i
+
+    final = pd.DataFrame.from_dict({'stock': ranks.keys(), 'pontos': ranks.values()})
+    final = final.sort_values(by=['pontos'])
+    final = final.reset_index()
+    final = final.drop(columns=['index'])
+
+    return final
+
+def modeloGordon(dados):
+    gordon = []
+
+    for name in dados.TICKER:
+
+        empresa = name + '.SA'
+        comp = yf.Ticker(empresa)
+        hist2 = comp.history(start='2016-01-01', end='2023-12-30')
+        hist = comp.history()
+
+        if (len(hist2) != 0):
+            somaDiv = hist2['Dividends'].resample('Y').sum()
+            gordonPrice = somaDiv.median() / 0.06
+
+            lastPrice = hist['Close'][-1]
+            if pd.isna(lastPrice):
+                lastPrice = hist['Close'][-2]
+
+            difGordon = (gordonPrice - lastPrice) / gordonPrice * 100
+
+            gordon.append([name, float("{0:.2f}".format(difGordon))])
+
+    dadoGordon = pd.DataFrame(gordon, columns=['stock', 'margemGordon'])
+    return dadoGordon
+
+def ticketsMaiorLiquidez(dados):
+    tickets = dados['TICKER']
+
+    ticketsNoNumber = set()
+    for emp in tickets:
+        ticketsNoNumber.add(emp[0:4])
+
+    ticketsMaisLiquidos = []
+    for j in ticketsNoNumber:
+        ticketsMaisLiquidos.append(
+            dados[dados['TICKER'].str.contains(j)].sort_values(by=[' LIQUIDEZ MEDIA DIARIA'], ascending=False)[
+                'TICKER'].iloc[0])
+
+    return ticketsMaisLiquidos
