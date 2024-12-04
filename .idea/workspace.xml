@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40ea1014-3d70-4431-9bb0-1114329fcdda" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/data/filtragem_acoes.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/filtragemacoes.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/statusinvest-busca-avancada.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/statusinvest-busca-avancada.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataAnalise/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataAnalise/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filtragem_acoes/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/filtragem_acoes/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teste.py" beforeDir="false" afterPath="$PROJECT_DIR$/teste.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -57,10 +64,11 @@
       <recent name="D:\pythonProjects\datafinanceflask\static\js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\pythonProjects\datafinanceflask\data" />
       <recent name="D:\pythonProjects\datafinanceflask\static\Imagens" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.__init__ (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="__init__ (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="datafinanceflask" />
       <option name="ENV_FILES" value="" />
@@ -152,9 +160,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.teste" />
         <item itemvalue="Python.__init__ (1)" />
         <item itemvalue="Python.__init__" />
-        <item itemvalue="Python.teste" />
       </list>
     </recent_temporary>
   </component>
