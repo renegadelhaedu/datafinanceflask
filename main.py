@@ -168,6 +168,11 @@ def actions():
     return render_template('actions.html')
 
 
+@app.route('/atualizar')
+def atualizar_arquivos():
+    da.processarAnalise().to_pickle('data/filtragem_acoes.pkl')
+
+    return 'Atualizado',200
 
 if __name__ == "__main__":
     app.run(debug=True)
