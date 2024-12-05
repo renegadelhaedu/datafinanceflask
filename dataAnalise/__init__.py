@@ -448,9 +448,10 @@ def modeloGordon(dados):
         comp = yf.Ticker(empresa)
         hist2 = comp.history(start='2020-01-01')
         hist = comp.history()
+        somaDiv = hist2['Dividends'].resample('Y').sum()
 
-        if (len(hist2) != 0):
-            somaDiv = hist2['Dividends'].resample('Y').sum()
+        if len(hist2) != 0 or len(somaDiv) < 4:
+
             gordonPrice = somaDiv.median() / 0.06
 
             lastPrice = hist['Close'][-1]
