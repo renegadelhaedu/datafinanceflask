@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
+
+
+
 :root {
   --bg-color: #f7f3f3;
   --main-color: #32439a;
@@ -25,8 +29,30 @@ header {
   height: 10%;
   background-color: var(--bg-color);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  padding: 10px;
+}
+
+.menu-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-container h1 {
+  font-size: 70px;
+  margin-top: -5px;
+  font-family: 'Allura', cursive;
+  color: var(--main-color);
+}
+
+header nav {
+  padding: 10px;
+  background-color: var(--bg-color);
 }
 
 header nav ul {
