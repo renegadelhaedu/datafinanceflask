@@ -1,10 +1,12 @@
+/* Estilo para o corpo */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
     margin: 20px;
     background-color: #f5f5f5;
     color: #333;
 }
 
+/* Estilo para o título */
 h1 {
     background-color: #32439a; /* Azul mais claro */
     color: white;
@@ -16,37 +18,39 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     font-size: 1.5em; /* Fonte do título menor */
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
 }
 
+/* Estilo para as linhas com indicadores */
 .indicator-row {
-    background-color: white;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 0.9em; /* Fonte menor */
+    padding: 12px;
+    border-radius: 5px;
+    background-color: #fff; /* Cor de fundo padrão */
+    margin-bottom: 10px;
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
 }
 
-.indicator-row span {
+/* Cor para as linhas alternadas */
+.indicator-row:nth-child(even) {
+    background-color: #f2f2f2; /* Cor de fundo para linhas pares */
+}
+
+/* Cor para o ticker (primeiro item) */
+.indicator-row span:first-child {
+    color: #32439a; /* Cor azul para os tickers */
     font-weight: bold;
-    margin-right: 12px;
-    font-size: 1em; /* Fonte ajustada para ficar menor */
 }
 
+/* Estilo para os outros spans */
+.indicator-row span {
+    font-weight: normal;
+    margin-right: 10px;
+    font-size: 1em;
+}
+
+/* Ajustando o último span para não ter margem à direita */
 .indicator-row span:last-child {
     margin-right: 0;
-}
-
-.indicator-row span {
-    display: inline-block;
-    width: auto;
-    text-align: center;
-}
-
-.indicator-row span:first-child {
-    flex-basis: 20%;
-    text-align: left;
 }
