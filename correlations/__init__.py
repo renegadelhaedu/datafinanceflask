@@ -8,8 +8,6 @@ import dao
 
 def ag_mult(num_acoes, tickers):
     print("Tickers e seus respectivos valores:")
-    for ticker, valor in tickers.items():
-        print(f"{ticker}: {valor}")
     if type(tickers) is list:
         tickers = [x + '.SA' for x in tickers]
     else:
