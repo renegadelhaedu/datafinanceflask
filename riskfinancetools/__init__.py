@@ -4,6 +4,7 @@ from .filtering import filtering
 from .portfolio_analisys import walletAnalisys
 from pandas import read_csv
 from datetime import datetime
+from dao import *
 
 riscoretorno_bp = Blueprint('riscoretorno', __name__)
 
@@ -19,6 +20,8 @@ def show_clustering():
 @riscoretorno_bp.route('/indicadoresriscoretorno', methods=['GET'])
 def calculate_inidicators_with_user_wallet():
     if 'user' in session:
+        if 'carteira' not in session:
+            session['carteira'] = get_carteira(session['user'][2])
         wallet = list(session['carteira'].keys())
         start = "2022-01-01"
         currentDate = datetime.now()
@@ -35,7 +38,7 @@ def calculate_inidicators_with_user_wallet():
 def update_dataStocks():
     if 'user' in session:
         try:
-            start = "2022-01-01"
+            start = "2014-01-01"
             end = "2024-11-22"
             filtering('data/statusinvest-busca-avancada.csv', startDate=start, endDate=end)
             listTickersFiltered = read_csv('data/acoes_filtradas.csv')['TICKER'].to_list()

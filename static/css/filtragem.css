@@ -1,0 +1,69 @@
+/* Estilo para o corpo */
+body {
+    font-family: Helvetica, Arial, sans-serif; /* Fonte para todo o conteúdo */
+    margin: 20px;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Estilo para o título */
+h1 {
+    background-color: #32439a; /* Azul mais claro */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.5em; /* Fonte do título menor */
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
+}
+
+/* Estilo para a tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    color: #333;
+}
+
+th {
+    background-color: #32439a; /* Cor de fundo para o cabeçalho */
+    color: white; /* Cor do texto do cabeçalho */
+    font-weight: bold;
+    font-size: 1.1em;
+    border-top-left-radius: 8px; /* Bordas arredondadas para o cabeçalho */
+    border-top-right-radius: 8px;
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
+}
+
+td {
+    background-color: #f9f9f9; /* Cor de fundo para as células */
+    font-family: Helvetica, Arial, sans-serif; /* Fonte Helvetica */
+}
+
+tr:nth-child(even) td {
+    background-color: #f2f2f2; /* Linhas pares com fundo um pouco mais escuro */
+}
+
+tr:hover td {
+    background-color: #e1e1e1; /* Efeito hover nas células */
+}
+
+tr:last-child td {
+    border-bottom-left-radius: 8px; /* Bordas arredondadas para a última linha */
+    border-bottom-right-radius: 8px;
+}
