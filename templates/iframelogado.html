@@ -2,31 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Indicadores e Ferramentas de Análise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            padding: 15px; /* Diminuí o padding do card */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 200px; /* Diminui a altura do card */
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card h3 {
+            font-size: 1.1em;
+            color: #32439a;
+            margin-bottom: 5px; /* Diminuí o espaço entre o título e a borda */
+        }
+        .card p {
+            font-size: 1em;
+            color: #333;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        .card a {
+            display: inline-block;
+            background-color: #32439a;
+            color: #fff;
+            padding: 8px 12px; /* Diminuí o padding do botão */
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            align-self: flex-end;
+        }
+        .card a:hover {
+            background-color: #2a317b;
+        }
+    </style>
 </head>
 <body>
 
-    <p>
-        <a href="/logado/rentabilidadecarteira/{{login}}">Gerar rentabilidade da sua carteira</a>
-    </p>
-    <p>
-        <a href="/logado/riscoretorno/{{login}}">Gerar gráfico do Risco/retorno da sua carteira</a>
-    </p>
-    <p>
-        <a href="/riscoretorno/clustering">Gerar clustering de ações com base na volatilidade e risco x retorno</a>
-    </p>
-    <p>
-        <a href="/riscoretorno/updateCsv">Atualizar filtragem de ações e cálculo dos indicadores</a>
-    </p>
-    <p>
-        <a href="/riscoretorno/indicadoresriscoretorno">Indicadores Risco e Retorno da minha carteira</a>
-    </p>
-    <p>
-        <a href="/logado/correlacaoindicadoresmacro">Correlação das ações da carteira com alguns indicadores macroeconomicos</a>
-    </p>
-    <p>
-        <a href="/logado/configurarag">Gerar carteira ideal</a>
-    </p>
+    <h1 style="text-align:center; color:#32439a;">Ferramentas de Análise da Carteira</h1>
+
+    <div class="grid-container">
+        <div class="card">
+            <h3>Gerar rentabilidade da sua carteira</h3>
+            <p>Calcule a rentabilidade total da sua carteira de investimentos ao longo do tempo.</p>
+            <a href="/logado/rentabilidadecarteira/{{login}}">Acessar</a>
+        </div>
+
+        <div class="card">
+            <h3>Gerar gráfico do Risco/retorno da sua carteira</h3>
+            <p>Visualize o gráfico de risco e retorno da sua carteira para análise rápida.</p>
+            <a href="/logado/riscoretorno/{{login}}">Acessar</a>
+        </div>
+
+        <div class="card">
+            <h3>Gerar clustering de ações</h3>
+            <p>Crie agrupamentos de ações com base na volatilidade e risco x retorno.</p>
+            <a href="/riscoretorno/clustering">Acessar</a>
+        </div>
+
+        <div class="card">
+            <h3>Atualizar filtragem de ações</h3>
+            <p>Atualize as filtragens das ações e recalcule os indicadores de risco.</p>
+            <a href="/riscoretorno/updateCsv">Acessar</a>
+        </div>
+
+        <div class="card">
+            <h3>Indicadores Risco e Retorno</h3>
+            <p>Veja os indicadores de risco e retorno da sua carteira de ações.</p>
+            <a href="/riscoretorno/indicadoresriscoretorno">Acessar</a>
+        </div>
+
+        <div class="card">
+            <h3>Correlação das ações da carteira</h3>
+            <p>Verifique a correlação entre as ações da sua carteira e indicadores macroeconômicos.</p>
+            <a href="/logado/correlacaoindicadoresmacro">Acessar</a>
+        </div>
+
+        <div class="card">
+            <h3>Gerar carteira ideal</h3>
+            <p>Crie uma carteira de investimentos ideal com base nas suas necessidades.</p>
+            <a href="/logado/configurarag">Acessar</a>
+        </div>
+    </div>
 
 </body>
 </html>
