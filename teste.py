@@ -51,3 +51,4 @@ def filtrar_acoes():
 
 #da.processarAnalise().to_pickle('data/filtragem_acoes.pkl')
 
+

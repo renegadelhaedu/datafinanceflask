@@ -385,7 +385,7 @@ def processarAnalise():
     dados3.fillna(0, inplace=True)
     dados3.loc[dados3['MARGEM EBIT'] == 0, 'MARGEM EBIT'] = dados3['MARGEM EBIT'].median()
 
-    dados3.drop(dados3[dados3[' LIQUIDEZ MEDIA DIARIA'] < 500000].index, inplace=True)
+    dados3.drop(dados3[dados3[' LIQUIDEZ MEDIA DIARIA'] < 1000000].index, inplace=True)
     dados3.drop(dados3[dados3['P/L'] <= 0].index, inplace=True)
     dados3.drop(dados3[dados3['DIVIDA LIQUIDA / EBIT'] >= 3].index, inplace=True)
     dados3.drop(dados3[dados3[' LPA'] <= 0].index, inplace=True)
@@ -446,7 +446,7 @@ def modeloGordon(dados):
 
         empresa = name + '.SA'
         comp = yf.Ticker(empresa)
-        hist2 = comp.history(start='2016-01-01', end='2023-12-30')
+        hist2 = comp.history(start='2020-01-01')
         hist = comp.history()
 
         if (len(hist2) != 0):
@@ -478,3 +478,38 @@ def ticketsMaiorLiquidez(dados):
                 'TICKER'].iloc[0])
 
     return ticketsMaisLiquidos
+
+
+def computarRankingFundamentos(tdiv):
+    tdiv = tdiv.set_index('stock')
+
+    tdiv['notaMedia'] = 0
+
+    for i in tdiv.index:
+
+        nota = 0
+        if tdiv.loc[i, 'pontos'] == tdiv.describe()['pontos'][3]:
+            nota = nota + 0
+        if tdiv.loc[i, 'pontos'] <= tdiv.describe()['pontos'][4]:
+            nota = nota + 3
+        elif tdiv.loc[i, 'pontos'] <= tdiv.describe()['pontos'][5]:
+            nota = nota + 2
+        elif tdiv.loc[i, 'pontos'] <= tdiv.describe()['pontos'][6]:
+            nota = nota + 1
+        else:
+            nota = nota + 0
+
+        if tdiv.loc[i, 'margemGordon'] == tdiv.describe()['margemGordon'][7]:
+            nota = nota + 0
+        if tdiv.loc[i, 'margemGordon'] >= tdiv.describe()['margemGordon'][6]:
+            nota = nota + 7
+        elif tdiv.loc[i, 'margemGordon'] >= tdiv.describe()['margemGordon'][5]:
+            nota = nota + 5
+        elif tdiv.loc[i, 'margemGordon'] >= tdiv.describe()['margemGordon'][4]:
+            nota = nota + 3
+        else:
+            nota = nota + 0
+
+        tdiv.loc[i, 'notaMedia'] = nota
+
+    return tdiv
