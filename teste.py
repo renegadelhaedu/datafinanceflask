@@ -50,5 +50,3 @@ def filtrar_acoes():
 #print(dataCorr[dataCorr.index.isin(dao.getMinhasEmpresasListadas())])
 
 #da.processarAnalise().to_pickle('data/filtragem_acoes.pkl')
-
-
