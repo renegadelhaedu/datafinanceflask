@@ -3,9 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+
+        .botao {
+        padding: 4px;
+  background-color: #32439a;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.5s;
+  opacity: 1;
+  text-decoration: none;
+}
+.botao:hover {
+  opacity: 0.5;
+}
+
+    </style>
 </head>
 <body>
-    <h2>Rentabilidade anualizada da carteira</h2>
+    <h2>Rentabilidade da carteira</h2>
+    <form action="/logado/rentabilidadecarteira" method="post">
+
+        <a>Filtre por: </a>
+        <input type="radio" name="tempo" value="no Dia">
+        <label>no Dia</label>
+
+        <input type="radio" name="tempo" value="no Mês">
+        <label>no Mês</label>
+
+        <input type="radio" name="tempo" value="no Ano">
+        <label>no Ano</label>
+
+        <input type="radio" name="tempo" value="desde 2023">
+        <label>desde 2023</label>
+
+        <button class="botao" type="submit" >Filtrar</button>
+    </form>
 
     {{plot | safe}}
 

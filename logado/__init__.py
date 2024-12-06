@@ -11,8 +11,6 @@ carteira_session = {}
 def pegar_carteira_thread(login):
     carteira_session['carteira'] = dao.get_carteira(login)
 
-
-
     
 logado_bp = Blueprint('logado', __name__)
 
@@ -26,19 +24,25 @@ def pagina_iframe_logado(pagina):
         return render_template('iframelogado.html', login=session['user'][2])
 
 
-@logado_bp.route('/rentabilidadecarteira/<login>')
-def calcular_rentabilidade_carteira(login):
-
-    if 'carteira' not in session:
+@logado_bp.route('/rentabilidadecarteira', methods=['POST','GET'])
+def calcular_rentabilidade_carteira():
+    if 'carteira' not in session and 'carteira' not in carteira_session:
+        Thread(target=pegar_carteira_thread, args=(session['user'][2],)).start()
+        return render_template('iframelogado.html', login=session['user'][2])
+    elif 'carteira' not in session:
         session['carteira'] = carteira_session['carteira']
 
-    dados = dataAnalise.rentabilidadeAcumulada('no Mês', login, session['carteira'])
+    if request.method == 'POST':
+        tempo = request.form.get('tempo')
+    else:
+        tempo = 'no Ano'
+    dados = dataAnalise.rentabilidadeAcumulada(tempo, session['carteira'])
     figura = grafico.gerarGraficoRentabilidadeAcumulada(dados)
 
     return render_template('rentabilidadeacumulada.html', plot=figura)
 
-@logado_bp.route('/riscoretorno/<login>')
-def gerar_graf2d_risco_retorno(login):
+@logado_bp.route('/riscoretorno')
+def gerar_graf2d_risco_retorno():
 
     if 'carteira' not in session:
         session['carteira'] = carteira_session['carteira']

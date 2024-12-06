@@ -310,7 +310,7 @@ def gerarRentabilidadeVariacao(tempo, tickers):
     return data
 
 
-def rentabilidadeAcumulada(tempo, login, carteira):
+def rentabilidadeAcumulada(tempo, carteira):
    # ['no Dia', 'no Mês', 'no Ano', 'Desde início do ano passado']
 
     tickers = list(map(lambda x: x + '.SA', list(carteira.keys())))

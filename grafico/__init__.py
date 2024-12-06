@@ -77,7 +77,8 @@ def gerarGrafCorrIndicAll3D(df_final):
             xaxis_title=df_final.columns[0],
             yaxis_title=df_final.columns[1],
             zaxis_title=df_final.columns[2],
-        )
+        ),
+        margin=dict(l=0, r=0, b=0, t=10),
     )
     return fig.to_html()
 

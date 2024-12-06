@@ -81,7 +81,6 @@ def clusteringKmeans(data=None, csvData=None):
         autosize=True,
         width=800,
         height=800,
-        title="Clusters - Gráfico 3D",
         scene=dict(
             xaxis_title='BETA',
             yaxis_title='STD (%)',
