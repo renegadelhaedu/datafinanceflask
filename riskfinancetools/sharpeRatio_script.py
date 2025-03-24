@@ -1,7 +1,7 @@
 import numpy as np
 
 def sharpeRatioIndicator(data, riskFreeRate):
-    data['returns'] = data['Adj Close'].pct_change()
+    data['returns'] = data['Close'].pct_change()
     returns = data['returns'].dropna()
     meanTickerStock = np.mean(returns)
     

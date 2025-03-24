@@ -1,7 +1,7 @@
 import numpy as np
 
 def treynorRatioIndicator(dataStock, beta, riskfreeRate):
-    dataStock['RETURNS'] = dataStock['Adj Close'].pct_change().dropna()
+    dataStock['RETURNS'] = dataStock['Close'].pct_change().dropna()
     returns = dataStock['returns'].dropna()
     meanReturnStock = np.mean(returns)
     
