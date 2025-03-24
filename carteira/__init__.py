@@ -29,7 +29,7 @@ def gerarPercentuais(email):
 
     qtdeTik = pd.DataFrame.from_dict(cart, orient='index', columns=['qtde'])
     qtdeTik.sort_index(inplace=True)
-    todayCot = pd.DataFrame(data['Adj Close'].iloc[-1])
+    todayCot = pd.DataFrame(data['Close'].iloc[-1])
     todayCot.columns = ['cota']
 
     qtdeTik['valor'] = qtdeTik['qtde'].values * todayCot['cota'].values
@@ -37,7 +37,7 @@ def gerarPercentuais(email):
     qtdeTik['perc'] = round((qtdeTik['valor'] / total) * 100, 1)
     qtdeTik.sort_values(by=['perc'], ascending=False, inplace=True)
 
-    grid = pd.concat([(data['Adj Close'].pct_change() * 100).iloc[-1], data['Adj Close'].iloc[-1]], axis=1)
+    grid = pd.concat([(data['Close'].pct_change() * 100).iloc[-1], data['Close'].iloc[-1]], axis=1)
     grid.index = grid.index.str.replace('.SA', '', regex=False)
     grid.reset_index(inplace=True)
     grid = grid.round(2)
