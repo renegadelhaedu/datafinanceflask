@@ -11,8 +11,8 @@ def pegarcotacoes():
     nomesAcoes = ['bbas3.sa', 'itsa4.sa','brsr6.sa','egie3.sa','alup11.sa', 'abcb4.sa']
 
     dados = yf.download(nomesAcoes)
-    valores = [round(x, 2) for x in list(dados['Adj Close'].ffill().iloc[-1].values)]
-    nomes = [y.replace('.SA', '') for y in list(dados['Adj Close'].columns.values)]
+    valores = [round(x, 2) for x in list(dados['Close'].ffill().iloc[-1].values)]
+    nomes = [y.replace('.SA', '') for y in list(dados['Close'].columns.values)]
 
     pares = []
     for i in range(len(nomes)):
@@ -153,9 +153,9 @@ def calcularRiscoRetJanelasTemp(tickers):
 def gerarDataRetornos(ticker):
 
     hist = yf.download(ticker, period='10y', interval='1d')
-    hist = hist[['Adj Close']].dropna()
+    hist = hist[['Close']].dropna()
 
-    hist['Retorno'] = (hist['Adj Close'] / hist['Adj Close'].shift(252) - 1) * 100
+    hist['Retorno'] = (hist['Close'] / hist['Close'].shift(252) - 1) * 100
     hist.dropna(inplace=True)
 
     hist['Positiva'] = hist['Retorno'] > 0
@@ -240,7 +240,7 @@ def isListed(dados):
 def get_cotacao_ticker(tickers):
     tickers = [x + '.SA' for x in tickers]
 
-    pares  = yf.download(tickers, period='1mo')['Adj Close']
+    pares  = yf.download(tickers, period='1mo')['Close']
     pares_ffill = pares.ffill()
     return pares_ffill.iloc[-1].to_dict()
 
@@ -293,10 +293,10 @@ def gerarRentabilidadeVariacao(tempo, tickers):
 
 
         data = yf.download(tickers, start=inicio, interval='5m')
-        ultimaCotacaoDiaAnterior = data.groupby(data['Adj Close'].index.astype(str).str[:10]).last().iloc[-2]
+        ultimaCotacaoDiaAnterior = data.groupby(data['Close'].index.astype(str).str[:10]).last().iloc[-2]
 
-        lastday = str(data['Adj Close'].index.map(pd.Timestamp.date).unique()[-1])
-        data = data[data['Adj Close'].index.astype(str).str[:10] == lastday]
+        lastday = str(data['Close'].index.map(pd.Timestamp.date).unique()[-1])
+        data = data[data['Close'].index.astype(str).str[:10] == lastday]
         data.loc[data.index[0], :] = ultimaCotacaoDiaAnterior
 
     elif tempo == 'no Ano':
@@ -318,8 +318,8 @@ def rentabilidadeAcumulada(tempo, carteira):
 
     data = gerarRentabilidadeVariacao(tempo, tickers)
 
-    ibov = data['Adj Close']['^BVSP']
-    data.drop(('Adj Close', '^BVSP'), axis=1, inplace=True)
+    ibov = data['Close']['^BVSP']
+    data.drop(('Close', '^BVSP'), axis=1, inplace=True)
 
     data.ffill(inplace=True)
     data.bfill(inplace=True)
@@ -327,7 +327,7 @@ def rentabilidadeAcumulada(tempo, carteira):
     qtdeTik = pd.DataFrame.from_dict(carteira, orient='index', columns=['qtde'])
     qtdeTik.sort_index(inplace=True)
 
-    todayCot = pd.DataFrame(data['Adj Close'].iloc[-1])
+    todayCot = pd.DataFrame(data['Close'].iloc[-1])
     todayCot.columns = ['cota']
 
     qtdeTik['valor'] = qtdeTik['qtde'].values * todayCot['cota'].values
@@ -335,7 +335,7 @@ def rentabilidadeAcumulada(tempo, carteira):
     total = qtdeTik['valor'].sum()
     qtdeTik['perc'] = round((qtdeTik['valor'] / total) * 100, 3)
 
-    cot_chg = data['Adj Close'].pct_change()
+    cot_chg = data['Close'].pct_change()
     cot_chg.fillna(0, inplace=True)
     weighted_returns = cot_chg * list(qtdeTik['perc'] / 100)
     port_ret = weighted_returns.sum(axis=1)

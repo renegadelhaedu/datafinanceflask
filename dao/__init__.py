@@ -4,15 +4,15 @@ def conectardb():
 
     con = psycopg2.connect(
 
-        #host='localhost',
-        #database = 'datafinanceflask',
-        #user = 'postgres',
-        #password = '12345'
-
-        host='dpg-csr4p61u0jms73cig53g-a.oregon-postgres.render.com',
+        host='localhost',
         database = 'datafinanceflask',
-        user = 'datafinanceflask',
-        password = 'mBfO8LOAkdUY1n7JwqMtT5wvYn6NbJWK'
+        user = 'postgres',
+        password = '12345'
+
+        #host='dpg-csr4p61u0jms73cig53g-a.oregon-postgres.render.com',
+        #database = 'datafinanceflask',
+        #user = 'datafinanceflask',
+        #password = 'mBfO8LOAkdUY1n7JwqMtT5wvYn6NbJWK'
     )
 
     return con
