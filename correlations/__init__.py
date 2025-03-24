@@ -14,7 +14,7 @@ def ag_mult(num_acoes, tickers):
         tickers = [x + '.SA' for x in tickers.keys()]
 
     def get_stock_data(tickers):
-        data = yf.download(tickers, period='10y')["Adj Close"]
+        data = yf.download(tickers, period='10y')["Close"]
         returns = data.pct_change().dropna()
         daily_returns = returns.mean()
         annualized_returns = daily_returns * 252  # 252 dias úteis por ano
@@ -123,7 +123,7 @@ def gerar_ag():
         tickers = [x + '.SA' for x in tickers.keys()]
 
     def get_correlation_matrix(tickers):
-        data = yf.download(tickers, period='10y')["Adj Close"]
+        data = yf.download(tickers, period='10y')["Close"]
         returns = data.pct_change().dropna()
         corr_matrix = returns.corr()
         return corr_matrix
