@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="40ea1014-3d70-4431-9bb0-1114329fcdda" name="Changes" comment="">
+    <list default="true" id="40ea1014-3d70-4431-9bb0-1114329fcdda" name="Changes" comment="BD cloud host ativo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dao/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/dao/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/acoes_filtradas.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/acoes_filtradas.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/riskfinancetools/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/riskfinancetools/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,6 +214,31 @@
       <option name="presentableId" value="Default" />
       <updated>1722690101252</updated>
     </task>
+    <task id="LOCAL-00001" summary="melhorar usabilidade da carteira;">
+      <option name="closed" value="true" />
+      <created>1745339696173</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745339696173</updated>
+    </task>
+    <task id="LOCAL-00002" summary="BD cloud host ativo">
+      <option name="closed" value="true" />
+      <created>1745339848234</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745339848234</updated>
+    </task>
+    <task id="LOCAL-00003" summary="BD cloud host ativo">
+      <option name="closed" value="true" />
+      <created>1745340370660</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745340370660</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -233,5 +256,8 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="melhorar usabilidade da carteira;" />
+    <MESSAGE value="BD cloud host ativo" />
+    <option name="LAST_COMMIT_MESSAGE" value="BD cloud host ativo" />
   </component>
 </project>
