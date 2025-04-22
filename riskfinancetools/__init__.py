@@ -39,7 +39,7 @@ def update_dataStocks():
     if 'user' in session:
         try:
             start = "2014-01-01"
-            end = "2024-11-22"
+            end = "2024-12-31"
             filtering('data/statusinvest-busca-avancada.csv', startDate=start, endDate=end)
             listTickersFiltered = read_csv('data/acoes_filtradas.csv')['TICKER'].to_list()
             walletAnalisys(wallet=listTickersFiltered, market='^BVSP', startDate=start, endDate=end)
